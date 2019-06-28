@@ -1,6 +1,6 @@
 # Gentoo Git Container
 
-FROM tuner23/git-skel:latest
+FROM tuner/git-skel:latest
 ENV CONTAINER_NAME="git" \
     USER="git" \
     MAIL="git@localhost" \
