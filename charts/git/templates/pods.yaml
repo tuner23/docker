@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ include "git.fullname" . }}
+  namespace: {{ .Values.nameSpace }}
+  labels:
+{{ include "git.labels" . | indent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  volumes:
+  - name: git-vol
+    persistentVolumeClaim:
+      claimName: git-pvc
+  containers:
+  - name: {{ include "git.fullname" . }}
+    image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+    command: ['tail']
+    args:  ['-f', '/dev/null']
+    volumeMounts:
+    - name: git-vol
+      mountPath: /data
+  restartPolicy: Never

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "git.fullname" . }}
+  namespace: {{ .Values.nameSpace }}
+  labels:
+{{ include "git.labels" . | indent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 9418
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: {{ include "git.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
