@@ -14,10 +14,11 @@
 *.swp
 *.bak
 *.tmp
-*.df
 *~
 # Various IDEs
 .project
 .idea/
 *.tmproj
 .vscode/
+# Own paths
+docker/

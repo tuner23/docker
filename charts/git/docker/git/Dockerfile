@@ -5,7 +5,7 @@ ENV CONTAINER_NAME="git" \
     USER="git" \
     MAIL="git@localhost" \
     REPO_PATH="/data/repo/" \
-    VERSION="1.1.0"
+    VERSION="1.1.2"
 EXPOSE 9418
 RUN groupadd ${USER} && \
     useradd -m -g root -s /usr/bin/git-shell ${USER} && \
