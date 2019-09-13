@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: devel-pvc
+  namespace: {{ .Values.nameSpace }}
+  labels:
+{{ include "devel.labels" . | indent 4 }}
+spec:
+  storageClassName: tuni.thek
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

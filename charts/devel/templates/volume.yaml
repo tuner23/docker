@@ -1,0 +1,30 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: devel-pv
+  namespace: {{ .Values.nameSpace }}
+  labels:
+    service: devel
+    type: local
+{{ include "devel.labels" . | indent 4 }}
+spec:
+  storageClassName: tuni.thek
+  capacity:
+    storage: 1Gi
+  accessModes:
+  - ReadWriteOnce
+  hostPath:
+    path: /volumes/devel
+  persistentVolumeReclaimPolicy: Retain
+  claimRef:
+    namespace: {{ .Values.nameSpace }}
+    name: devel-pvc
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - minikube
