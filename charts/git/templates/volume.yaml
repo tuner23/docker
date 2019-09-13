@@ -5,7 +5,7 @@ metadata:
   name: git-pv
   namespace: {{ .Values.nameSpace }}
   labels:
-    for_app: git
+    service: git
     type: local
 {{ include "git.labels" . | indent 4 }}
 spec:
