@@ -33,8 +33,6 @@ spec:
           readinessProbe:
             tcpSocket:
               port: 9418
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
       volumes:
         - name: git-vol
           persistentVolumeClaim:

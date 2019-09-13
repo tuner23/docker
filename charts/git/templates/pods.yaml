@@ -4,6 +4,7 @@ metadata:
   name: {{ include "git.fullname" . }}
   namespace: {{ .Values.nameSpace }}
   labels:
+    service: git
 {{ include "git.labels" . | indent 4 }}
   annotations:
     "helm.sh/hook": test-success
