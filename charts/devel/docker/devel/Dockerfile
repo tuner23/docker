@@ -5,7 +5,7 @@ ENV CONTAINER_NAME="devel" \
     USER="devel" \
     USER_HOME="/home/devel" \
     MAIL="devel@localhost" \
-    REPO_PATH="/data/evel" \
+    REPO_PATH="/data/devel" \
     PYTHONV="python3.6" \
     VERSION="1.1.3"
 RUN useradd -m -U -s /bin/bash ${USER} && \
