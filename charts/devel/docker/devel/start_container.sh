@@ -15,8 +15,8 @@ if [ `id -u` == 0 ] ; then
   else
     cd ${REPO_PATH}
     git pull
-    tail -f /dev/null
   fi
+  tail -f /dev/null
 else
   echo "Running as root!"
   /bin/bash

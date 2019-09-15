@@ -12,7 +12,7 @@ RUN groupadd ${USER} && \
     /bin/sed -i.bak 's/\(^GIT_\w*=\"\)nobody\(\"\)/\1git\2/g' /etc/conf.d/git-daemon && \
     /bin/sed -i.bak 's:\(^GITDAEMON_OPTS=\"\).*\(\"\):\1--base-path='"${REPO_PATH}"' --enable=receive-pack --export-all\2:g' /etc/conf.d/git-daemon && \
     echo ${CONTAINER_NAME} ${VERSION} > /etc/docker.type
-COPY ${CONTAINER_NAME}.start_container.sh /start_container.sh
+COPY /start_container.sh /start_container.sh
 VOLUME ["/data"]
 WORKDIR ${REPO_PATH}
 #USER ${USER}

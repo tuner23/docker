@@ -17,7 +17,7 @@ RUN useradd -m -U -s /bin/bash ${USER} && \
     grep -qF "git pull" "${USER_HOME}/.bashrc" || echo "git pull" >> "${USER_HOME}/.bashrc" && \
     grep -qF 'export PATH="/home/'"${USER}"'/.local/bin:'"${PATH}"'"' "${USER_HOME}/.bashrc" || echo 'export PATH="/home/'"${USER}"'/.local/bin:'"${PATH}"'"' >> "${USER_HOME}/.bashrc" && \
     echo ${CONTAINER_NAME} ${VERSION} > /etc/docker.type
-COPY /${CONTAINER_NAME}.start_container.sh /start_container.sh
+COPY /start_container.sh /start_container.sh
 VOLUME ["/data"]
 WORKDIR ${REPO_PATH}
 USER ${USER}
