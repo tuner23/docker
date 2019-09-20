@@ -16,9 +16,10 @@ if [ `id -u` == 0 ] ; then
     cd ${REPO_PATH}
     git pull
   fi
-  tail -f /dev/null
 else
   echo "Running as root!"
   /bin/bash
 fi
 
+#tail -f /dev/null
+while true; do sleep 30; done;
