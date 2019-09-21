@@ -33,7 +33,6 @@ EOF
 else
   echo "Running as root!"
   /bin/bash
-  while true; do sleep 30; done;
 fi
 
-
+while true; do sleep 30; done;
