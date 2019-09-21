@@ -12,5 +12,5 @@ replicaCount: 1
 image:
   repository: tuner/devel
   tag: latest
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
