@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ `id -u` != 0 ] ; then
+if [ `id -u` == 0 ] ; then
   if [ ! -d ${REPO_PATH} ] ; then
     mkdir -p ${REPO_PATH}
   fi
@@ -31,7 +31,8 @@ EOF
   ## Starting git daemon
   /usr/libexec/git-core/git-daemon --verbose --enable=receive-pack --enable=upload-archive --export-all --user=${USER} --group=${USER}
 else
-  echo "Running as root!"
+  echo "Run as root!"
+  echo "..or do stuff with sudo"
   /bin/bash
 fi
 
