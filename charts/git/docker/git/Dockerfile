@@ -15,5 +15,5 @@ RUN groupadd ${USER} && \
 COPY /start_container.sh /start_container.sh
 VOLUME ["/data"]
 WORKDIR ${REPO_PATH}
-#USER ${USER}
+USER ${USER}
 ENTRYPOINT ["/start_container.sh"]
