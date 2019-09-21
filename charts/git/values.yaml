@@ -12,7 +12,7 @@ replicaCount: 1
 image:
   repository: tuner/git
   tag: latest
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 service:
   type: ClusterIP
