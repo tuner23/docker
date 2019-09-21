@@ -1,7 +1,6 @@
 #!/bin/bash
   
-## init: comment USER ${USER} and WORKDIR ${REPO_PATH} in dockerfiles/devel.df
-if [ `id -u` == 0 ] ; then
+if [ `id -u` != 0 ] ; then
   if [ ! -d ${REPO_PATH} ] ; then
     mkdir -p ${REPO_PATH}
   fi
