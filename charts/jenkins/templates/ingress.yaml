@@ -1,12 +1,12 @@
 #{{- if .Values.ingress.enabled -}}
-#{{- $fullName := include "git.fullname" . -}}
+#{{- $fullName := include "jenkins.fullname" . -}}
 #apiVersion: extensions/v1beta1
 #kind: Ingress
 #metadata:
 #  name: {{ $fullName }}
 #  namespace: {{ .Values.nameSpace }}
 #  labels:
-#{{ include "git.labels" . | indent 4 }}
+#{{ include "jenkins.labels" . | indent 4 }}
 #  {{- with .Values.ingress.annotations }}
 #  annotations:
 #    {{- toYaml . | nindent 4 }}
