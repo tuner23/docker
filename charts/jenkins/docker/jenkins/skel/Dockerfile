@@ -1,6 +1,6 @@
 # Gentoo Jenkins Container
 
-FROM tuner/gentoo:latest
+FROM tuner/gentoo-jenkins:latest
 RUN eix-sync && \
     (emerge -D --autounmask-write dev-util/jenkins-bin || true) && \
     etc-update --automode -5 && \
