@@ -1,0 +1,30 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: jenkins-pv
+  namespace: {{ .Values.nameSpace }}
+  labels:
+    service: jenkins
+    type: local
+{{ include "jenkins.labels" . | indent 4 }}
+spec:
+  storageClassName: tuni.thek
+  capacity:
+    storage: 1Gi
+  accessModes:
+  - ReadWriteOnce
+  hostPath:
+    path: /volumes/jenkins
+  persistentVolumeReclaimPolicy: Retain
+  claimRef:
+    namespace: {{ .Values.nameSpace }}
+    name: jenkins-pvc
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - minikube
