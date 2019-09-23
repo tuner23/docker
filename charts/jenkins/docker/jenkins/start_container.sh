@@ -10,6 +10,11 @@ if [ `id -u` != 0 ] ; then
   touch ${REPO_PATH}/logs/jenkins.log
   chown -R ${USER} ${REPO_PATH}
   cd ${REPO_PATH}
+
+  if [ ! -f "/data/jenkins/jenkins.war" ] ; then
+    cp /opt/jenkins/jenkins.war /data/jenkins/jenkins.war
+  fi
+
   JENKINS_HOME="${REPO_PATH}"
   JAVA_HOME=`java-config --jre-home`
   COMMAND=${JAVA_HOME}/bin/java
