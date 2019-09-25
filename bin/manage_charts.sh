@@ -3,11 +3,14 @@
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 WORKDIR="${SCRIPTPATH}/../charts"
 CMDS="install upgrade delete purge"
-FORCE=false
-DRY=false
+FORCE=""
+DRY=""
 
 usage() { 
     echo -e "Usage:\n$0 [CHART_NAME] [install|upgrade|delete|purge] [--dry-run|--debug]"
+    echo -e "Options:"
+    echo -e "\t--dry-run\tdon't change"
+    echo -e "\t--debug\t\trun in debug mode"
 }
 
 if [ "$#" -lt 2 ] ; then
@@ -61,7 +64,18 @@ delete_chart() {
     helm delete --purge $DRY $DEBUG $CHART
 }
 
-get_args "$@"
+purge_chart() {
+    echo "Purging $CHART with options $DRY ..."
+    helm delete --purge $DRY $DEBUG $CHART
+
+    kubectl delete service ${CHART}
+    kubectl delete pvc ${CHART}-pvc
+    kubectl delete pv ${CHART}-pv
+    kubectl delete deployment ${CHART}
+    kubectl delete configmap ${CHART}-configmap
+    kubectl delete pod ${CHART}
+}
+
 check_args
 
 case "${CMD}" in
@@ -75,7 +89,7 @@ case "${CMD}" in
         delete_chart
         ;;
     purge)
-        delete_chart
+        purge_chart
         ;;
     *)
         error_exit "Could not find command ?"
