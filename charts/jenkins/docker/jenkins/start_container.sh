@@ -21,7 +21,7 @@ if [ `id -u` != 0 ] ; then
   JAVA_PARAMS="${JENKINS_JAVA_OPTIONS} -DJENKINS_HOME=${JENKINS_HOME} -jar ${JENKINS_WAR}"
 
   PARAMS="--logfile=${REPO_PATH}/logs/jenkins.log"
-  [ -n "${JENKINS_PORT}" ] && PARAMS="${PARAMS} --httpPort=${JENKINS_PORT}"
+  [ -n "${JENKINS_PORT}" ] && PARAMS="${PARAMS} --httpPort=${JENKINS_PORT_8080_TCP_PORT}"
   [ -n "${JENKINS_DEBUG_LEVEL}" ] && PARAMS="${PARAMS} --debug=${JENKINS_DEBUG_LEVEL}"
   [ -n "${JENKINS_HANDLER_STARTUP}" ] && PARAMS="${PARAMS} --handlerCountStartup=${JENKINS_HANDLER_STARTUP}"
   [ -n "${JENKINS_HANDLER_MAX}" ] && PARAMS="${PARAMS} --handlerCountMax=${JENKINS_HANDLER_MAX}"
