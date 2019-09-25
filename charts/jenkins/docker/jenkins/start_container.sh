@@ -11,8 +11,8 @@ if [ `id -u` != 0 ] ; then
   chown -R ${USER} ${REPO_PATH}
   cd ${REPO_PATH}
 
-  if [ ! -f "/data/jenkins/jenkins.war" ] ; then
-    cp /opt/jenkins/jenkins.war /data/jenkins/jenkins.war
+  if [ ! -L "/data/jenkins/jenkins.war" ] ; then
+     ln -s /opt/jenkins/jenkins.war /data/jenkins/jenkins.war
   fi
 
   JENKINS_HOME="${REPO_PATH}"
@@ -20,7 +20,7 @@ if [ `id -u` != 0 ] ; then
   COMMAND=${JAVA_HOME}/bin/java
   JAVA_PARAMS="${JENKINS_JAVA_OPTIONS} -DJENKINS_HOME=${JENKINS_HOME} -jar ${JENKINS_WAR}"
 
-  PARAMS="--logfile=/dev/stdout"
+  PARAMS="--logfile=${REPO_PATH}/logs/jenkins.log"
   [ -n "${JENKINS_PORT}" ] && PARAMS="${PARAMS} --httpPort=${JENKINS_PORT}"
   [ -n "${JENKINS_DEBUG_LEVEL}" ] && PARAMS="${PARAMS} --debug=${JENKINS_DEBUG_LEVEL}"
   [ -n "${JENKINS_HANDLER_STARTUP}" ] && PARAMS="${PARAMS} --handlerCountStartup=${JENKINS_HANDLER_STARTUP}"
