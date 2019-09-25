@@ -11,7 +11,7 @@ if [ `id -u` != 0 ] ; then
   chown -R ${USER} ${REPO_PATH}
   cd ${REPO_PATH}
 
-  if [ ! -L "/data/jenkins/jenkins.war" ] ; then
+  if [ ! -e "/data/jenkins/jenkins.war" ] ; then
      ln -s /opt/jenkins/jenkins.war /data/jenkins/jenkins.war
   fi
 
