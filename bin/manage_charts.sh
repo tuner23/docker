@@ -7,10 +7,11 @@ FORCE=""
 DRY=""
 
 usage() { 
-    echo -e "Usage:\n$0 [CHART_NAME] [install|upgrade|delete|purge] [--dry-run|--debug]"
+    echo -e "Usage:\n$0 [install|upgrade|delete|purge] [CHART_NAME|all] [--dry-run|--debug]"
     echo -e "Options:"
     echo -e "\t--dry-run\tdon't change"
     echo -e "\t--debug\t\trun in debug mode"
+    echo
 }
 
 if [ "$#" -lt 2 ] ; then
@@ -20,8 +21,8 @@ if [ "$#" -lt 2 ] ; then
 }
 fi
 
-CHART="$1"
-CMD="$2"
+CMD="$1"
+CHART="$2"
 OPT="${@:3}"
 
 if [[ "${OPT}" = *--dry-run* ]] ; then
@@ -38,19 +39,38 @@ error_exit() {
 }
 
 check_args() {
-    ## chart
-    if [ ! -d "${WORKDIR}/${CHART}" ] ; then
-	    error_exit "Chart dir not found: ${WORKDIR}/${CHART}"
-	fi
     if [[ "${CMDS}" != *${CMD}* ]] ; then
-        error_exit "Command ${CMD} is not one of ${CMDS// /$','}"
+        error_exit "Argument ${CMD} is not one of ${CMDS// /$','}"
+    fi
+    if [ "$CHART" != "all" ] ; then
+        if [ ! -d "${WORKDIR}/${CHART}" ] ; then
+    	    error_exit "Chart dir not found: ${WORKDIR}/${CHART}"
+    	fi
     fi
 }
 
 install_chart() {
     cd "${WORKDIR}"
-    echo "Installing $CHART with options $DRY ..."
-    helm install $DRY $DEBUG --name $CHART ./$CHART/
+    if [ "$CHART" == "all" ] ; then
+        do_all
+    else
+        echo "Installing $CHART with options $DRY ..."
+        helm install $DRY $DEBUG --name $CHART ./$CHART/
+    fi
+}
+
+do_all() {
+    if [ "$CMD" == "install" ] ; then
+        helm install $DRY $DEBUG --name common ./common/
+        helm install $DRY $DEBUG --name git ./git/
+        helm install $DRY $DEBUG --name devel ./devel/
+        helm install $DRY $DEBUG --name jenkins ./jenkins/
+    elif [ "$CMD" == "delete" ] ; then
+        helm delete $DRY $DEBUG --name jenkins
+        helm delete $DRY $DEBUG --name devel
+        helm delete $DRY $DEBUG --name git
+        helm delete $DRY $DEBUG --name common
+    fi
 }
 
 upgrade_chart() {
@@ -90,6 +110,9 @@ case "${CMD}" in
         ;;
     purge)
         purge_chart
+        ;;
+    all)
+        do_all
         ;;
     *)
         error_exit "Could not find command ?"
