@@ -9,7 +9,7 @@ ENV CONTAINER_NAME="jenkins" \
     JENKINS_WAR="/data/jenkins/jenkins.war" \
     JENKINS_PORT="8080" \
     JENKINS_DEBUG_LEVEL="5" \
-    JENKINS_HANDLER_STARTUP="5"
+    JENKINS_HANDLER_STARTUP="5" \
     VERSION="1.1.0"
 EXPOSE 8080
 RUN /bin/sed -i.bak 's:\(^jenkins.*\)/var/lib/jenkins\(.*\):\1'"${REPO_PATH}"'\2:g' /etc/passwd && \
