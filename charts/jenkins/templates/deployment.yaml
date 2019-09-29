@@ -30,9 +30,13 @@ spec:
           livenessProbe:
             tcpSocket:
               port: 8080
+            initialDelaySeconds: 360
+            periodSeconds: 120
           readinessProbe:
             tcpSocket:
               port: 8080
+            initialDelaySeconds: 360
+            periodSeconds: 120
       volumes:
         - name: jenkins-vol
           persistentVolumeClaim:

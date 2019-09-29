@@ -12,7 +12,7 @@ if [ `id -u` != 0 ] ; then
   cd ${REPO_PATH}
 
   if [ ! -e "/data/jenkins/jenkins.war" ] ; then
-     ln -s /opt/jenkins/jenkins.war /data/jenkins/jenkins.war
+     cp /opt/jenkins/jenkins.war /data/jenkins/jenkins.war
   fi
 
   JENKINS_HOME="${REPO_PATH}"
@@ -33,7 +33,6 @@ if [ `id -u` != 0 ] ; then
   fi
 
   /bin/bash -c "${COMMAND} ${JAVA_PARAMS} ${PARAMS} &" ${USER}
-  tail -F -n0 /etc/hosts
 else
   echo "Running as root!"
   /bin/bash
