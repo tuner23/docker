@@ -24,8 +24,6 @@ if [ `id -u` != 0 ] ; then
   [ -n "${JENKINS_PORT}" ] && PARAMS="${PARAMS} --httpPort=${JENKINS_PORT_8080_TCP_PORT}"
   [ -n "${JENKINS_DEBUG_LEVEL}" ] && PARAMS="${PARAMS} --debug=${JENKINS_DEBUG_LEVEL}"
   [ -n "${JENKINS_HANDLER_STARTUP}" ] && PARAMS="${PARAMS} --handlerCountStartup=${JENKINS_HANDLER_STARTUP}"
-  [ -n "${JENKINS_HANDLER_MAX}" ] && PARAMS="${PARAMS} --handlerCountMax=${JENKINS_HANDLER_MAX}"
-  [ -n "${JENKINS_HANDLER_IDLE}" ] && PARAMS="${PARAMS} --handlerCountMaxIdle=${JENKINS_HANDLER_IDLE}"
   [ -n "${JENKINS_ARGS}" ] && PARAMS="${PARAMS} ${JENKINS_ARGS}"
 
   if [ "$JENKINS_ENABLE_ACCESS_LOG" = "yes" ]; then
