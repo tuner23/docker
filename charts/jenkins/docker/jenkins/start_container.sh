@@ -5,10 +5,11 @@
 #chmod g+rw /proc/self/fd/1
 
 ## init: comment USER ${USER} and WORKDIR ${REPO_PATH} in dockerfiles/django.df
-if [ `id -u` != 0 ] ; then
+#if [ `id -u` != 0 ] ; then
   mkdir -p ${REPO_PATH}/{backup,home,logs}
   touch ${REPO_PATH}/logs/jenkins.log
   chown -R ${USER} ${REPO_PATH}
+  su - ${USER}
   cd ${REPO_PATH}
 
   if [ ! -e "/data/jenkins/jenkins.war" ] ; then
@@ -31,9 +32,9 @@ if [ `id -u` != 0 ] ; then
   fi
 
   /bin/bash -c "${COMMAND} ${JAVA_PARAMS} ${PARAMS} &" ${USER}
-else
-  echo "Running as root!"
-  /bin/bash
-fi
+#else
+#  echo "Running as root!"
+#  /bin/bash
+#fi
 
 while true; do sleep 30; done;
