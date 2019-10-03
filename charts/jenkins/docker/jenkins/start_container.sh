@@ -24,7 +24,6 @@ if [ `id -u` != 0 ] ; then
   PARAMS="--logfile=${REPO_PATH}/logs/jenkins.log"
   [ -n "${JENKINS_PORT}" ] && PARAMS="${PARAMS} --httpPort=${JENKINS_PORT_8080_TCP_PORT}"
   [ -n "${JENKINS_DEBUG_LEVEL}" ] && PARAMS="${PARAMS} --debug=${JENKINS_DEBUG_LEVEL}"
-  [ -n "${JENKINS_HANDLER_STARTUP}" ] && PARAMS="${PARAMS} --handlerCountStartup=${JENKINS_HANDLER_STARTUP}"
   [ -n "${JENKINS_ARGS}" ] && PARAMS="${PARAMS} ${JENKINS_ARGS}"
 
   if [ "$JENKINS_ENABLE_ACCESS_LOG" = "yes" ]; then
