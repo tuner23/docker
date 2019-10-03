@@ -12,9 +12,10 @@ usage() {
     echo -e "\tinit: \t\t\tSetup minikube with helm and tiller (first start kube)"
     echo -e "\tstart: \t\t\tStart minikube"
     echo -e "\tstop: \t\t\tStop minikube"
+    echo -e "\turl: \t\t\tGet dashboard url"
     echo -e "\tdocker: \t\tSet docker env"
     echo -e "\tservice [SERVICENAME]: \tGet service url"
-    echo -e "\tlogin [SERVICENAME]: \tprint docker login command"
+    echo -e "\tlogin [SERVICENAME]: \tPrint docker login command"
 #    echo -e "\t--debug\t\trun in debug mode"
 }
 
