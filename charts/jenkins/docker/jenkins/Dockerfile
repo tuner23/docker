@@ -12,11 +12,13 @@ ENV CONTAINER_NAME="jenkins" \
     JENKINS_HANDLER_STARTUP="5" \
     VERSION="1.1.0"
 EXPOSE 8080
-RUN /bin/sed -i.bak 's:\(^jenkins.*\)/var/lib/jenkins\(.*\):\1'"${REPO_PATH}"'\2:g' /etc/passwd && \
+RUN usermod -u 1000 jenkins && \
+    groupmod -g 1000 jenkins && \
+    /bin/sed -i.bak 's:\(^jenkins.*\)/var/lib/jenkins\(.*\):\1'"${REPO_PATH}"'\2:g' /etc/passwd && \
     /bin/sed -i.bak 's:\(^JENKINS_HOME="\)/var/lib/jenkins/home\("\):\1'"${REPO_PATH}"'/home\2:g' /etc/conf.d/jenkins && \
     echo ${CONTAINER_NAME} ${VERSION} > /etc/docker.type
 COPY /start_container.sh /start_container.sh
-#USER ${USER}
+USER ${USER}
 VOLUME ["/data"]
 #WORKDIR ${REPO_PATH}
 ENTRYPOINT ["/start_container.sh"]
