@@ -2,7 +2,8 @@
 
 FROM tuner/gentoo-jenkins:latest
 RUN eix-sync && \
-    (vemerge -D --autounmask-write dev-java/openjdk-bin || true) && \
+    emerge -D portage && \
+    (emerge -D --autounmask-write dev-java/openjdk-bin || true) && \
     etc-update --automode -5 && \
     emerge -D dev-java/openjdk-bin && \
     (emerge -D --autounmask-write dev-util/jenkins-bin || true) && \
