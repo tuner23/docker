@@ -1,8 +1,14 @@
 # Gentoo Git Container
+# Use the empty image with the portage tree as the first stage
+FROM gentoo/portage:latest as portage
 
-FROM tuner/gentoo:latest
-RUN eix-sync && \
-    emerge -D dev-vcs/git
+# Gentoo stage3 is the second stage, basically an unpacked Gentoo Linux
+FROM gentoo/stage3-amd64:latest as gentoo
+
+# Copy the portage tree into the current stage
+COPY --from=portage /usr/portage /usr/portage
+#FROM tuner/gentoo:latest
+RUN emerge -D dev-vcs/git
 RUN rm /var/cache/eix/* && \
     rm -rf /usr/portage/* 
 
