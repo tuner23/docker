@@ -5,7 +5,7 @@
 #chmod g+rw /proc/self/fd/1
 
 ## init: comment USER ${USER} and WORKDIR ${REPO_PATH} in dockerfiles/django.df
-if [ `id -u` != 0 ] ; then
+if [ `id -u` == 0 ] ; then
   mkdir -p ${REPO_PATH}/{backup,home,logs}
   touch ${REPO_PATH}/logs/jenkins.log
   chown -R ${USER} ${REPO_PATH}
@@ -32,7 +32,8 @@ if [ `id -u` != 0 ] ; then
 
   /bin/bash -c "${COMMAND} ${JAVA_PARAMS} ${PARAMS} &" ${USER}
 else
-  echo "Running as root!"
+  echo "Run as root!"
+  echo "Jenkins has a permission problem i couldn't solve"
   /bin/bash
 fi
 

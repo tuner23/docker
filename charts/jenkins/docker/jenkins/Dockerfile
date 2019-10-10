@@ -9,7 +9,6 @@ ENV CONTAINER_NAME="jenkins" \
     JENKINS_WAR="/data/jenkins/jenkins.war" \
     JENKINS_PORT="8080" \
     JENKINS_DEBUG_LEVEL="5" \
-    JENKINS_HANDLER_STARTUP="5" \
     VERSION="1.1.0"
 EXPOSE 8080
 RUN usermod -u 1000 jenkins && \
@@ -19,7 +18,7 @@ RUN usermod -u 1000 jenkins && \
     /bin/sed -i.bak 's:\(^JENKINS_WAR="\)/opt/jenkins/jenkins.war\("\):\1'"${REPO_PATH}"'/jenkins.war\2:g' /etc/conf.d/jenkins && \
     echo ${CONTAINER_NAME} ${VERSION} > /etc/docker.type
 COPY /start_container.sh /start_container.sh
-USER ${USER}
+USER root
 VOLUME ["/data"]
 #WORKDIR ${REPO_PATH}
 ENTRYPOINT ["/start_container.sh"]
