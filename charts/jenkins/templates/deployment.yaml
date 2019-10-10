@@ -18,9 +18,8 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
+        runAsUser: 0
+        runAsGroup: 0
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -35,12 +34,12 @@ spec:
             tcpSocket:
               port: 8080
             initialDelaySeconds: 360
-            periodSeconds: 120
+            periodSeconds: 360
           readinessProbe:
             tcpSocket:
               port: 8080
             initialDelaySeconds: 360
-            periodSeconds: 120
+            periodSeconds: 360
       volumes:
         - name: jenkins-vol
           persistentVolumeClaim:
