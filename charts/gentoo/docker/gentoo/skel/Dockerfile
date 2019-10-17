@@ -12,5 +12,4 @@ COPY --from=portage / /
 #RUN emerge -D dev-vcs/git app-editors/vim app-portage/eix
 #RUN rm /var/cache/eix/* && \
 #    rm -rf /usr/portage/* 
-RUN echo "alias ll='ls -lah --color=auto'" >> /etc/bash/bashrc && \
-    mkdir /var/db/repos/gentoo
+RUN echo 'alias ll="ls -lah --color=auto"' >> /etc/bash/bashrc
