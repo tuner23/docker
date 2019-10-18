@@ -1,18 +1,17 @@
-# Gentoo Git Container v2
-# Use the empty image with the portage tree as the first stage
+# Gentoo Base Container v2
+## Include the portage tree
 FROM gentoo/portage:latest as portage
 
-# Gentoo stage3 is the second stage, basically an unpacked Gentoo Linux
+## Use Gentoo stage3 as base image
 FROM gentoo/stage3-amd64:latest
 
-# Copy the portage tree into the current stage
+## Copy the portage tree into the current stage
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
-#FROM tuner/gentoo:latest
-#RUN emerge -D dev-vcs/git app-editors/vim app-portage/eix
-#RUN rm /var/cache/eix/* && \
-#    rm -rf /usr/portage/* 
+## Install some essentials
 RUN echo 'alias ll="ls -lah --color=auto"' >> /etc/bash/bashrc && \
-    emerge -D app-editors/vim && \
-    rm -rf /var/db/repos/gentoo	&& \
+    emerge -D app-editors/vim
+
+## Do cleanup
+RUN rm -rf /var/db/repos/gentoo	&& \
     rm -rf /var/cache/distfiles/*
