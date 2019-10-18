@@ -8,8 +8,10 @@ FROM tuner/gentoo-skel:latest
 ## Copy the portage tree
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
-## Install git and cleanup
+## Install git
 RUN echo "dev-vcs/git -perl" >> /etc/portage/package.use/own && \
-    emerge -D dev-vcs/git && \
-    rm -rf /var/db/repos/gentoo && \
+    emerge -D dev-vcs/git
+
+## Do cleanup
+RUN rm -rf /var/db/repos/gentoo && \
     rm -rf /var/cache/distfiles/*
