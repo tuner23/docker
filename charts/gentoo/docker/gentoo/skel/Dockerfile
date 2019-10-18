@@ -1,4 +1,4 @@
-# Gentoo Base Container v2
+# Gentoo Base Container
 ## Include the portage tree
 FROM gentoo/portage:latest as portage
 
@@ -11,6 +11,12 @@ COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 ## Install some essentials
 RUN echo 'alias ll="ls -lah --color=auto"' >> /etc/bash/bashrc && \
     emerge -D app-editors/vim
+
+## Remove unnecessary stuff
+RUN rm -rf /usr/share/doc/* && \
+    rm -rf /usr/share/gtk-doc/* && \
+    rm -rf /usr/share/info/* && \
+    rm -rf /usr/share/man/*
 
 ## Do cleanup
 RUN rm -rf /var/db/repos/gentoo	&& \
