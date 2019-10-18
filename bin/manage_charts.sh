@@ -25,11 +25,11 @@ CMD="$1"
 CHART="$2"
 OPT="${@:3}"
 
-if [[ "${OPT}" = *--dry-run* ]] ; then
+if [[ "${OPT}" == *--dry-run* ]] ; then
     DRY="--dry-run"
 fi
 
-if [[ "${OPT}" = *--debug* ]] ; then
+if [[ "${OPT}" == *--debug* ]] ; then
     DEBUG="--debug"
 fi
 
