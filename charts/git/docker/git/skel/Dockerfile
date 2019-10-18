@@ -1,15 +1,14 @@
 # Gentoo Git Container
-# Use the empty image with the portage tree as the first stage
+## Include the portage tree
 FROM gentoo/portage:latest as portage
 
-# Gentoo stage3 is the second stage, basically an unpacked Gentoo Linux
-FROM gentoo/stage3-amd64:latest as gentoo
+## Use the gentoo skel as base image
+FROM tuner/gentoo-skel:latest
 
-# Copy the portage tree into the current stage
-COPY --from=portage / /usr/portage
+## Copy the portage tree
+COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
-#FROM tuner/gentoo:latest
-RUN emerge -D dev-vcs/git app-editors/vim app-portage/eix
-RUN rm /var/cache/eix/* && \
-    rm -rf /usr/portage/* 
-
+## Install git and cleanup
+RUN emerge -D dev-vcs/git && \
+    rm -rf /var/db/repos/gentoo && \
+    rm -rf /var/cache/distfiles/*
