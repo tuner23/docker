@@ -13,4 +13,6 @@ COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 #RUN rm /var/cache/eix/* && \
 #    rm -rf /usr/portage/* 
 RUN echo 'alias ll="ls -lah --color=auto"' >> /etc/bash/bashrc && \
-    emerge -D app-editors/vim 
+    emerge -D app-editors/vim && \
+    rm -rf /var/db/repos/gentoo	&& \
+    rm -rf /var/cache/distfiles/*
