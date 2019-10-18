@@ -13,9 +13,7 @@ if [ `id -u` == 0 ] ; then
     ## Add post-commit hook
     cat <<\EOF > ${REPO_PATH}/hooks/post-commit
 #!/bin/sh
-#JENKINS_IP="$(curl -s -H 'Content-Type: application/json' -g -XGET http://172.17.0.1:2375/containers/json'?filters={%22name%22:[%22jenkins%22]}' | jq '.[].NetworkSettings.Networks.bridge.IPAddress')"
-JENKINS_IP="172.17.0.3"
-exec curl -v http://${JENKINS_IP}:8080/git/notifyCommit?url='git://git:9418/data/git'
+exec curl -v http://jenkins:8080/git/notifyCommit?url='git://git:9418/data/git'
 EOF
     chmod 755 ${REPO_PATH}/hooks/post-commit
     chown -R ${USER}:${USER} ${REPO_PATH}
