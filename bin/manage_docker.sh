@@ -4,6 +4,7 @@ SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 WORKDIR="${SCRIPTPATH}/../charts"
 CMDS="test jenkins"
 BUILD=""
+PRIV_PACKS="x11-libs/libX11 dev-libs/gobject-introspection x11-libs/gdk-pixbuf"i
 
 usage() { 
     echo -e "Usage:\n$0 [test|jenkins] [CONTAINER] [--build]"
@@ -49,15 +50,16 @@ start_container() {
     docker rmi $(docker images | egrep "^${CONTAINER}-skel" | awk '{ print $3 }')
 
     echo -n "Building container.."
-    if [ "$BUILD" != "" ] ; then
+    if [ "$BUILD" == "--build" ] ; then
         echo " from scratch.." 
         if [ "${CONTAINER}" != "jenkins" ] ; then
             docker build -t ${CONTAINER}-skel --file ./${CONTAINER}/docker/${CONTAINER}/skel/Dockerfile.testing .
         else
             echo -e "FROM gentoo/portage:latest as portage\nFROM tuner/gentoo-skel:latest\nCOPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo"  | docker build -t ${CONTAINER}-skel-local -
-            docker run --privileged -ti --name ${CONTAINER}-skel ${CONTAINER}-skel-local:latest /bin/bash -c "emerge -D1 x11-libs/libX11"
-            docker commit ${CONTAINER}-skel ${CONTAINER}-skel
+            docker run --privileged -ti --name ${CONTAINER}-skel ${CONTAINER}-skel-local:latest /bin/bash -c "emerge -D1 ${PRIV_PACKS}"
+            docker commit ${CONTAINER}-skel ${CONTAINER}-skel-local
             docker rm ${CONTAINER}-skel
+            docker build -t ${CONTAINER}-skel --file ./${CONTAINER}/docker/${CONTAINER}/skel/Dockerfile.testing .
         fi
     else
         echo " from dockerhub image.."
@@ -79,7 +81,7 @@ build_jenkins() {
 
     echo -n "Building container.."
     echo -e "FROM gentoo/portage:latest as portage\nFROM tuner/gentoo-skel:latest\nCOPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo"  | docker build -t ${CONTAINER}-skel-local -
-    docker run --privileged -ti --name ${CONTAINER}-skel-local ${CONTAINER}-skel-local:latest /bin/bash -c "emerge -D1 x11-libs/libX11 && rm -rf /var/db/repos/gentoo && rm -rf /var/cache/distfiles/*"
+    docker run --privileged -ti --name ${CONTAINER}-skel-local ${CONTAINER}-skel-local:latest /bin/bash -c "emerge -D1 ${PRIV_PACKS} && rm -rf /var/db/repos/gentoo && rm -rf /var/cache/distfiles/*"
     docker commit ${CONTAINER}-skel-local tuner/gentoo-jenkins
     docker login
     docker push tuner/gentoo-jenkins
