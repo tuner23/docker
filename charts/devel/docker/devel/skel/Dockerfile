@@ -10,7 +10,7 @@ COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
 ## Install devel tools
 RUN echo "dev-lang/python sqlite" >> /etc/portage/package.use/own && \
-    emerge -D dev-python/pip dev-lang/python
+    emerge -D dev-python/pip dev-lang/python dev-vcs/git
 
 ## Do cleanup
 RUN rm -rf /var/db/repos/gentoo && \
