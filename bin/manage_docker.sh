@@ -4,7 +4,8 @@ SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 WORKDIR="${SCRIPTPATH}/../charts"
 CMDS="test jenkins"
 BUILD=""
-PRIV_PACKS="x11-libs/libX11 dev-libs/gobject-introspection x11-libs/gdk-pixbuf"i
+PRIV_PACKS="dev-util/jenkins-bin"
+USE_FLAGS='-introspection -glib -vala -cairo -dri3 -egl -gallium -llvm -X -e2fsprogs -gtk -ipv6'
 
 usage() { 
     echo -e "Usage:\n$0 [test|jenkins] [CONTAINER] [--build]"
@@ -46,8 +47,8 @@ start_container() {
     cd "${WORKDIR}"
 
     echo "Removing old stuff.."
-    docker rm $(docker ps -a | egrep " ${CONTAINER}-skel" | cut -d ' ' -f1)
-    docker rmi $(docker images | egrep "^${CONTAINER}-skel" | awk '{ print $3 }')
+    (docker rm $(docker ps -a | egrep " ${CONTAINER}-skel" | cut -d ' ' -f1) || true)
+    (docker rmi $(docker images | egrep "^${CONTAINER}-skel" | awk '{ print $3 }') || true)
 
     echo -n "Building container.."
     if [ "$BUILD" == "--build" ] ; then
@@ -56,7 +57,7 @@ start_container() {
             docker build -t ${CONTAINER}-skel --file ./${CONTAINER}/docker/${CONTAINER}/skel/Dockerfile.testing .
         else
             echo -e "FROM gentoo/portage:latest as portage\nFROM tuner/gentoo-skel:latest\nCOPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo"  | docker build -t ${CONTAINER}-skel-local -
-            docker run --privileged -ti --name ${CONTAINER}-skel ${CONTAINER}-skel-local:latest /bin/bash -c "emerge -D1 ${PRIV_PACKS}"
+            docker run --privileged -ti --name ${CONTAINER}-skel ${CONTAINER}-skel-local:latest /bin/bash -c "echo USE=\"'${USE_FLAGS}'\" >> /etc/portage/make.conf && (emerge -D --autounmask-write ${PRIV_PACKS} || true) && etc-update --automode -5 && emerge -D1 ${PRIV_PACKS}"
             docker commit ${CONTAINER}-skel ${CONTAINER}-skel-local
             docker rm ${CONTAINER}-skel
             docker build -t ${CONTAINER}-skel --file ./${CONTAINER}/docker/${CONTAINER}/skel/Dockerfile.testing .
@@ -67,7 +68,7 @@ start_container() {
     fi
     
     echo "Starting ${CONTAINER} container  ..."
-    docker run -ti --name ${CONTAINER}-skel:latest ${CONTAINER}-skel /bin/bash
+    docker run -ti --name ${CONTAINER}-skel ${CONTAINER}-skel:latest /bin/bash
 }
 
 build_jenkins() {
@@ -81,7 +82,7 @@ build_jenkins() {
 
     echo -n "Building container.."
     echo -e "FROM gentoo/portage:latest as portage\nFROM tuner/gentoo-skel:latest\nCOPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo"  | docker build -t ${CONTAINER}-skel-local -
-    docker run --privileged -ti --name ${CONTAINER}-skel-local ${CONTAINER}-skel-local:latest /bin/bash -c "emerge -D1 ${PRIV_PACKS} && rm -rf /var/db/repos/gentoo && rm -rf /var/cache/distfiles/*"
+    docker run --privileged -ti --name ${CONTAINER}-skel-local ${CONTAINER}-skel-local:latest /bin/bash -c "echo USE=\"'${USE_FLAGS}'\" >> /etc/portage/make.conf && (emerge -D --autounmask-write ${PRIV_PACKS} || true) && etc-update --automode -5 && emerge -D1 ${PRIV_PACKS} && rm -rf /var/db/repos/gentoo && rm -rf /var/cache/distfiles/*"
     docker commit ${CONTAINER}-skel-local tuner/gentoo-jenkins
     docker login
     docker push tuner/gentoo-jenkins
