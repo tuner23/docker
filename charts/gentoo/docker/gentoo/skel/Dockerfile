@@ -10,7 +10,6 @@ COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
 ## Install some essentials
 RUN echo 'alias ll="ls -lah --color=auto"' >> /etc/bash/bashrc && \
-    echo "dev-vcs/git -perl" >> /etc/portage/package.use/own && \
     emerge -D app-editors/vim dev-vcs/git
 
 ## Remove unnecessary stuff
