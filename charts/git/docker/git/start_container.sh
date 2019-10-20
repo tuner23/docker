@@ -13,7 +13,7 @@ if [ `id -u` == 0 ] ; then
     ## Add post-commit hook
     cat <<\EOF > ${REPO_PATH}/hooks/post-commit
 #!/bin/sh
-exec curl -v http://jenkins:8080/git/notifyCommit?url='git://git:9418/data/git'
+exec curl -v http://jenkins:8080/git/notifyCommit?url='git://git:9418/data/repo'
 EOF
     chmod 755 ${REPO_PATH}/hooks/post-commit
     chown -R ${USER}:${USER} ${REPO_PATH}
@@ -27,7 +27,7 @@ EOF
   #  fi
   
   ## Starting git daemon
-  /usr/libexec/git-core/git-daemon --verbose --enable=receive-pack --enable=upload-archive --export-all --user=${USER} --group=${USER}
+  /usr/libexec/git-core/git-daemon --verbose --base-path=/data/repo --enable=receive-pack --enable=upload-archive --export-all --user=${USER} --group=${USER}
 else
   echo "Run as root!"
   echo "..or do stuff with sudo"
