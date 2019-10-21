@@ -2,8 +2,10 @@
 
 if [ `id -u` == 0 ] ; then
   if [ ! -d ${REPO_PATH} ] ; then
-    mkdir -p ${REPO_PATH}
+    groupadd ${USER}
+    useradd -m -d ${REPO_PATH} -g root -s /usr/bin/git-shell ${USER}
   fi
+  
   cd ${REPO_PATH}
   ## create repos
   if [[ ! -d "${REPO_PATH}/hooks" ]] ; then
