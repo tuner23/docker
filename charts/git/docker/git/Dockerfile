@@ -10,6 +10,6 @@ EXPOSE 9418
 RUN echo ${CONTAINER_NAME} ${VERSION} > /etc/docker.type
 COPY /start_container.sh /start_container.sh
 VOLUME ["/data"]
-WORKDIR ${REPO_PATH}
+#WORKDIR ${REPO_PATH}
 #USER ${USER}
 ENTRYPOINT ["/start_container.sh"]
