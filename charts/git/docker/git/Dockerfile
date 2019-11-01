@@ -7,11 +7,9 @@ ENV CONTAINER_NAME="git" \
     REPO_PATH="/data/repo/" \
     VERSION="1.1.2"
 EXPOSE 9418
-RUN groupadd ${USER} && \
-    useradd -m -g root -s /usr/bin/git-shell ${USER} && \
-    echo ${CONTAINER_NAME} ${VERSION} > /etc/docker.type
+RUN echo ${CONTAINER_NAME} ${VERSION} > /etc/docker.type
 COPY /start_container.sh /start_container.sh
 VOLUME ["/data"]
 #WORKDIR ${REPO_PATH}
-USER ${USER}
+#USER ${USER}
 ENTRYPOINT ["/start_container.sh"]
