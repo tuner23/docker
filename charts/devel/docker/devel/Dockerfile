@@ -19,6 +19,6 @@ RUN useradd -m -U -s /bin/bash ${USER} && \
     echo ${CONTAINER_NAME} ${VERSION} > /etc/docker.type
 COPY /start_container.sh /start_container.sh
 VOLUME ["/data"]
-WORKDIR ${REPO_PATH}
-USER ${USER}
+#WORKDIR ${REPO_PATH}
+#USER ${USER}
 ENTRYPOINT ["/start_container.sh"]
