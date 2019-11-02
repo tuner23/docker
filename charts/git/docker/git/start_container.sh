@@ -1,10 +1,11 @@
 #!/bin/bash
 
-if [ ! -d ${REPO_PATH} ] ; then
-  groupadd ${USER}
-  useradd -m -d ${REPO_PATH} -g root -s /usr/bin/git-shell ${USER}
-fi
+#if [ ! $(id -u git) ] ; then
+#  groupadd ${USER}
+#  useradd -m -d ${REPO_PATH} -g root -s /usr/bin/git-shell ${USER}
+#fi
 
+chmod 755 ${REPO_PATH}
 cd ${REPO_PATH}
 ## create repos
 if [[ ! -d "${REPO_PATH}/hooks" ]] ; then
