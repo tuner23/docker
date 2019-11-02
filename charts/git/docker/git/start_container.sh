@@ -1,10 +1,6 @@
 #!/bin/bash
 
-#if [ ! $(id -u git) ] ; then
-#  groupadd ${USER}
-#  useradd -m -d ${REPO_PATH} -g root -s /usr/bin/git-shell ${USER}
-#fi
-
+mkdir -p ${REPO_PATH}
 chmod 755 ${REPO_PATH}
 cd ${REPO_PATH}
 ## create repos
