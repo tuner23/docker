@@ -1,0 +1,5 @@
+handle_apps.sh      - Handle apps
+init_host.sh        - Initial setup of the Kubernetes host
+manage_charts.sh	- Handle charts
+manage_kube.sh      - Manage kubernetes
+minikube/           - Old scripts for minikube usage

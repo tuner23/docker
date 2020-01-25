@@ -15,9 +15,10 @@ if [ -b /dev/sdb ] ; then
     mount /storage
 fi
 
-echo "alias kubectl='microk8s.kubectl'" >  /home/tuner/.bash_aliases
-echo "alias helm='microk8s.helm'" >  /home/tuner/.bash_aliases
-echo "alias kubectl='microk8s.kubectl'" >  /root/.bash_aliases
+echo "source <(kubectl completion bash)" >> ~/.bashrc
+echo "alias kubectl='microk8s.kubectl'" >>  /home/tuner/.bash_aliases
+echo "alias helm='microk8s.helm'" >>  /home/tuner/.bash_aliases
+echo "alias kubectl='microk8s.kubectl'" >>  /root/.bash_aliases
 chown tuner /home/tuner/.bash_aliases
 
 apt-get update
@@ -39,8 +40,12 @@ microk8s.start
 
 microk8s.enable dns dashboard helm metrics-server ingress
 
-#microk8s.enable registry
-#helm repo update
+kubectl create serviceaccount tiller --namespace kube-system
+kubectl create clusterrolebinding tiller-cluster-rule  --clusterrole=cluster-admin  --serviceaccount=kube-system:tiller
+helm init --service-account=tiller
+helm repo update
+helm init --upgrade
+
 exit
 
 
