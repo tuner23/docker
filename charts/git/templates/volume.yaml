@@ -15,16 +15,8 @@ spec:
   accessModes:
   - ReadWriteOnce
   hostPath:
-    path: /volumes/git
+    path: /storage/volumes/git
   persistentVolumeReclaimPolicy: Retain
   claimRef:
     namespace: {{ .Values.nameSpace }}
     name: git-pvc
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - minikube

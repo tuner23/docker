@@ -15,16 +15,8 @@ spec:
   accessModes:
   - ReadWriteOnce
   hostPath:
-    path: /volumes/devel
+    path: /storage/volumes/devel
   persistentVolumeReclaimPolicy: Retain
   claimRef:
     namespace: {{ .Values.nameSpace }}
     name: devel-pvc
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - minikube
