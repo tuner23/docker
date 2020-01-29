@@ -1,29 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "git.fullname" . }}
+  name: {{ include "app.name" . }}
   namespace: {{ .Values.nameSpace }}
   labels:
-{{ include "git.labels" . | indent 4 }}
+{{ include "app.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "git.name" . }}
+      app.kubernetes.io/name: {{ include "app.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "git.name" . }}
+        app.kubernetes.io/name: {{ include "app.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ include "app.name" . }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
             - mountPath: /data
-              name: git-vol
+              name: {{ include "app.name" . }}-vol
           ports:
             - containerPort: 9418
               protocol: TCP
@@ -34,6 +34,6 @@ spec:
             tcpSocket:
               port: 9418
       volumes:
-        - name: git-vol
+        - name: {{ include "app.name" . }}-vol
           persistentVolumeClaim:
-            claimName: git-pvc
+            claimName: {{ include "app.name" . }}-pvc

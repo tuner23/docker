@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: git-pvc
+  name: {{ include "app.name" . }}-pvc
   namespace: {{ .Values.nameSpace }}
   labels:
-{{ include "git.labels" . | indent 4 }}
+{{ include "app.labels" . | indent 4 }}
 spec:
   storageClassName: tuni.thek
   accessModes:

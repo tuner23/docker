@@ -3,9 +3,6 @@
 # Declare variables to be passed into your templates.
 
 nameSpace: development
-genericName: "git"
-nameOverride: "git"
-fullnameOverride: "git"
 
 replicaCount: 1
 
