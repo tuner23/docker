@@ -10,7 +10,7 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: 9418
+      targetPort: {{ .Values.service.port }}
       protocol: TCP
   selector:
     app.kubernetes.io/name: {{ include "app.name" . }}

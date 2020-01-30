@@ -9,6 +9,7 @@ metadata:
   annotations:
     "helm.sh/hook": test-success
 spec:
+  service: {{ include "app.name" . }}
   volumes:
   - name: {{ include "app.name" . }}-vol
     persistentVolumeClaim:
