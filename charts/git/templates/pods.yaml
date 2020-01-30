@@ -17,8 +17,8 @@ spec:
   containers:
   - name: {{ include "app.name" . }}
     image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-    command: ['tail']
-    args:  ['-f', '/dev/null']
+    command: [ '/bin/bash', '-c', '--' ]
+    args:  [ 'while true; do sleep 30; done;' ]
     volumeMounts:
     - name: {{ include "app.name" . }}-vol
       mountPath: /data

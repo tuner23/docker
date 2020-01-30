@@ -27,6 +27,6 @@ chown -R ${USER}:${USER} ${REPO_PATH}
 #  fi
   
 ## Starting git daemon
-/usr/libexec/git-core/git-daemon --verbose --base-path=/data/repo --enable=receive-pack --enable=upload-archive --export-all --user=${USER} --group=${USER}
+/usr/libexec/git-core/git-daemon --verbose --enable=receive-pack --enable=upload-archive --export-all --user=${USER} --group=${USER}
 
-while true; do sleep 30; done;
+#while true; do sleep 30; done;

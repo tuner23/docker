@@ -9,7 +9,7 @@ FROM tuner/gentoo-skel:latest
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
 ## Install git
-RUN emerge -D dev-vcs/git sys-process/lsof
+RUN emerge -D dev-vcs/git
 
 ## Do cleanup
 RUN rm -rf /var/db/repos/gentoo && \
