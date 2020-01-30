@@ -7,5 +7,5 @@ if [ ! -d ${REPO_PATH} ] ; then
   git config --global user.name "${USER}"
 fi
 
-#while true; do sleep 30; done;
+while true; do sleep 30; done;
 
