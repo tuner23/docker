@@ -15,7 +15,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   hostPath:
-    path: /storage/volumes/{{ include "app.name" . }}
+    path: /data/volumes/{{ include "app.name" . }}
   persistentVolumeReclaimPolicy: Retain
   claimRef:
     namespace: {{ .Values.nameSpace }}
