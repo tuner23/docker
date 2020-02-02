@@ -2,21 +2,19 @@
 #
 # Initial configuration of the host
 
-
 IP_HOST="$(ip addr show enp1s0 | grep 'inet ' | cut -d ' ' -f 6 | cut -d '/' -f1)"
 IP_RANGE_HOST="$(echo ${IP_HOST} | rev | cut -d '.' -f 2- | rev).0/24"
-IP_RANGE_DOCKER="10.1.0.0/16"
 
 if [ -b /dev/sdb ] ; then
     #mkfs.ext4 -i 4096 /dev/vdb
     #mkfs.ext4 /dev/vdc
-    echo "/dev/vdb                /storage          ext4    defaults        1 2" >> /etc/fstab
-    echo "/dev/vdc                /volumes          ext4    defaults        1 2" >> /etc/fstab
+    echo "/dev/vdb    /storage    ext4    defaults    1 2" >> /etc/fstab
+    echo "/dev/vdc    /data       ext4    defaults    1 2" >> /etc/fstab
 
     mkdir /storage
     mount /storage
-    mkdir /volumes
-    mount /volumes
+    mkdir /data
+    mount /data
 fi
 
 echo "source <(kubectl completion bash)" >> ~/.bashrc
