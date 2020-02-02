@@ -17,6 +17,7 @@ if [ -b /dev/sdb ] ; then
     mount /data
 fi
 
+echo "cd /data/repo/docker" >> ~/.bashrc
 echo "source <(kubectl completion bash)" >> ~/.bashrc
 echo "alias kubectl='microk8s.kubectl'" >>  /home/tuner/.bash_aliases
 echo "alias helm='microk8s.helm'" >>  /home/tuner/.bash_aliases
