@@ -2,21 +2,21 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: jenkins-pv
+  name: {{ include "app.name" . }}-pv
   namespace: {{ .Values.nameSpace }}
   labels:
-    service: jenkins
+    service: {{ include "app.name" . }}
     type: local
-{{ include "jenkins.labels" . | indent 4 }}
+{{ include "app.labels" . | indent 4 }}
 spec:
   storageClassName: tuni.thek
   capacity:
-    storage: 1Gi
+    storage: 2Gi
   accessModes:
   - ReadWriteOnce
   hostPath:
-    path: /storage/volumes/jenkins
+    path: /data/volumes/{{ include "app.name" . }}
   persistentVolumeReclaimPolicy: Retain
   claimRef:
     namespace: {{ .Values.nameSpace }}
-    name: jenkins-pvc
+    name: {{ include "app.name" . }}-pvc

@@ -33,7 +33,7 @@ if [ `id -u` == 0 ] ; then
   /bin/bash -c "${COMMAND} ${JAVA_PARAMS} ${PARAMS} &" ${USER}
 else
   echo "Run as root!"
-  echo "Jenkins has a permission problem i couldn't solve"
+  echo "Jenkins has a permission problem i couldn't solve without further"
   /bin/bash
 fi
 

@@ -1,1 +1,0 @@
-../bin/manage_docker.sh
