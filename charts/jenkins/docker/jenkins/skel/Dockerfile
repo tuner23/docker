@@ -15,7 +15,8 @@ COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 RUN (emerge -D --autounmask-write dev-util/jenkins-bin || true) && \
     etc-update --automode -5 && \
     emerge -D dev-util/jenkins-bin && \
-    emerge -D app-misc/jq
+    emerge -D app-misc/jq && \
+    sys-cluster/kubectl
 
 ## Do cleanup
 RUN rm -rf /var/db/repos/gentoo && \
