@@ -16,7 +16,7 @@ RUN (emerge -D --autounmask-write dev-util/jenkins-bin || true) && \
     etc-update --automode -5 && \
     emerge -D dev-util/jenkins-bin && \
     emerge -D app-misc/jq && \
-    sys-cluster/kubectl
+    emerge -D sys-cluster/kubectl
 
 ## Do cleanup
 RUN rm -rf /var/db/repos/gentoo && \
