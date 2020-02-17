@@ -24,6 +24,9 @@ echo "alias helm='microk8s.helm'" >>  /home/tuner/.bash_aliases
 echo "alias kubectl='microk8s.kubectl'" >>  /root/.bash_aliases
 chown tuner /home/tuner/.bash_aliases
 
+mv /var/lib/docker/ /storage/
+ln -s /storage/docker /var/lib/docker
+
 apt-get update
 apt-get upgrade
 

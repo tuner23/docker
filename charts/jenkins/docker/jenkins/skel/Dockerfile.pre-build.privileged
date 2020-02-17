@@ -12,11 +12,12 @@ COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
 ## Install Jenkins
 #FROM tuner/gentoo-jenkins:latest
-RUN (emerge -D --autounmask-write dev-util/jenkins-bin || true) && \
+RUN emerge --sync && \
+    echo 'ACCEPT_KEYWORDS="~amd64"' >> /etc/portage/make.conf && \
+    (emerge -D --autounmask-write dev-util/jenkins-bin || true) && \
     etc-update --automode -5 && \
-    emerge -D dev-util/jenkins-bin && \
-    emerge -D app-misc/jq
+    emerge -D dev-util/jenkins-bin sys-cluster/kubectl app-misc/jq
 
 ## Do cleanup
-#RUN rm -rf /var/db/repos/gentoo && \
-#    rm -rf /var/cache/distfiles/*
+RUN rm -rf /var/db/repos/gentoo && \
+    rm -rf /var/cache/distfiles/*
