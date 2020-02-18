@@ -16,6 +16,9 @@ RUN usermod -u 1000 jenkins && \
     /bin/sed -i.bak 's:\(^jenkins.*\)/var/lib/jenkins\(.*\):\1'"${REPO_PATH}"'\2:g' /etc/passwd && \
     /bin/sed -i.bak 's:\(^JENKINS_HOME="\)/var/lib/jenkins/home\("\):\1'"${REPO_PATH}"'/home\2:g' /etc/conf.d/jenkins && \
     /bin/sed -i.bak 's:\(^JENKINS_WAR="\)/opt/jenkins/jenkins.war\("\):\1'"${REPO_PATH}"'/jenkins.war\2:g' /etc/conf.d/jenkins && \
+    mkdir -p "${REPO_PATH}/.kube" && \
+    touch "${REPO_PATH}/.kube/config" && \
+    chown -R "${USER}" "${REPO_PATH}/.kube" && \
     echo ${CONTAINER_NAME} ${VERSION} > /etc/docker.type
 COPY /start_container.sh /start_container.sh
 USER root

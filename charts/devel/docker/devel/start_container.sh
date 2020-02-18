@@ -1,6 +1,6 @@
 #!/bin/bash
   
-if [ ! -d ${REPO_PATH} ] ; then
+if [[ ! -d ${REPO_PATH} && "$(whoami)" == "devel" ]] ; then
   git clone git://git:/data/repo ${REPO_PATH}
   cd ${REPO_PATH}
   git config --global user.email "devel-devel@mail.arx"
