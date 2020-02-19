@@ -1,6 +1,6 @@
 # Gentoo Jenkins Container
 
-FROM tuner/jenkins-skel:latest
+FROM tuner/gentoo-skel:latest
 ENV CONTAINER_NAME="jenkins" \
     USER="jenkins" \
     MAIL="jenkins@localhost" \
