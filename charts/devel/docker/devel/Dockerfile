@@ -1,6 +1,6 @@
 # Gentoo Devel Container
   
-FROM tuner/devel-skel:latest
+FROM tuner/gentoo-skel:latest
 ENV CONTAINER_NAME="devel" \
     USER="devel" \
     USER_HOME="/home/devel" \
