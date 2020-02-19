@@ -1,6 +1,6 @@
 # Gentoo Devel Container
   
-FROM tuner/app-skel:latest
+FROM tuner/gentoo-skel:latest
 ENV CONTAINER_NAME="app" \
     USER="app" \
     USER_HOME="/home/app" \
