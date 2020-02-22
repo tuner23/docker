@@ -10,8 +10,8 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: prod
+  name: mg
   labels:
-    name: prod
+    name: mg
 ...
 
