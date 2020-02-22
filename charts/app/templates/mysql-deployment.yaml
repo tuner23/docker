@@ -32,10 +32,8 @@ spec:
         - name: {{ include "app.name" . }}-mysql
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: 
-            - sh
-            - '-c'
-            - ''
+          command: [ "/bin/bash", "-c", "--" ]
+          args:  [ "while true; do sleep 30; done;" ]
           volumeMounts:
             - mountPath: /data
               name: {{ include "app.name" . }}-mysql-vol
