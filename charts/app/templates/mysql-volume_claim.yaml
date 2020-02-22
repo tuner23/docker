@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "app.name" . }}-pvc
+  name: {{ include "app.name" . }}-mysql-pvc
   namespace: {{ .Values.nameSpace }}
   labels:
 {{ include "app.labels" . | indent 4 }}

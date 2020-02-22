@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: {{ include "app.name" . }}-pv
+  name: {{ include "app.name" . }}-mysql-pv
   namespace: {{ .Values.nameSpace }}
   labels:
-    service: {{ include "app.name" . }}
+    service: {{ include "app.name" . }}-mysql
     type: local
 {{ include "app.labels" . | indent 4 }}
 spec:
@@ -15,8 +15,8 @@ spec:
   accessModes:
   - ReadWriteOnce
   hostPath:
-    path: /data/volumes/{{ include "app.name" . }}
+    path: /data/volumes/{{ include "app.name" . }}-mysql
   persistentVolumeReclaimPolicy: Retain
   claimRef:
     namespace: {{ .Values.nameSpace }}
-    name: {{ include "app.name" . }}-pvc
+    name: {{ include "app.name" . }}-mysql-pvc
