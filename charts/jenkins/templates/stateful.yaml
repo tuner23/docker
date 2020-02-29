@@ -6,6 +6,7 @@ metadata:
   labels:
 {{ include "app.labels" . | indent 4 }}
 spec:
+  serviceName: {{ include "app.name" . }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "app.name" . }}
@@ -18,21 +19,16 @@ spec:
     spec:
       initContainers:
       - name: init-{{ include "app.name" . }}
-        image: tuner/gentoo-skel:latest
-        command:
-        - sh
-        - '-c'
-        - 'touch /data/test && chown 1000 /data'
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        command: [ "/bin/bash", "-c", "--" ]
+        args:  [ "touch /data/test && chown -R jenkins /data" ]
         securityContext:
           runAsUser: 0
         volumeMounts:
         - name: {{ include "app.name" . }}-vol
           mountPath: /data
-      securityContext:
-        runAsUser: 0
-        runAsGroup: 0
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ include "app.name" . }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: [ "/bin/bash", "-c", "--" ]

@@ -17,12 +17,10 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       initContainers:
-      - name: init-devel
-        image: tuner/gentoo:latest
-        command: 
-        - sh
-        - '-c'
-        - 'touch /data/test && chown 1000 /data'
+      - name: init-{{ include "app.name" . }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        command: [ "/bin/bash", "-c", "--" ]
+        args:  [ "touch /data/test && chown -R devel /data" ]
         securityContext:
           runAsUser: 0
         volumeMounts:

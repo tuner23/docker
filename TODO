@@ -1,3 +1,2 @@
 * run git as git user with initContainers
 * run jenkins as jenkins user with initContainers
-* alles auf tuner/gentoo-skel (incl initcontainers)

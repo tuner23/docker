@@ -7,7 +7,6 @@ metadata:
 {{ include "app.labels" . | indent 4 }}
 spec:
   serviceName: {{ include "app.name" . }}
-  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "app.name" . }}
@@ -18,10 +17,22 @@ spec:
         app.kubernetes.io/name: {{ include "app.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      initContainers:
+      - name: init-{{ include "app.name" . }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        command: [ "/bin/bash", "-c", "--" ]
+        args:  [ "touch /data/test && chown git /data" ]
+        securityContext:
+          runAsUser: 0
+        volumeMounts:
+        - name: {{ include "app.name" . }}-vol
+          mountPath: /data
       containers:
         - name: {{ include "app.name" . }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: [ "/bin/bash", "-c", "--" ]
+          args:  [ "while true; do sleep 30; done;" ]
           volumeMounts:
             - mountPath: /data
               name: {{ include "app.name" . }}-vol

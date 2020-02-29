@@ -10,13 +10,12 @@ metadata:
   annotations:
     "helm.sh/hook": test-success
 spec:
+  service: {{ include "app.name" . }}
   initContainers:
   - name: init-{{ include "app.name" . }}
-    image: tuner/gentoo-skel:latest
-    command:
-    - sh
-    - '-c'
-    - 'touch /data/test && chown 1000 /data'
+    image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+    command: [ "/bin/bash", "-c", "--" ]
+    args:  [ "touch /data/test && chown -R jenkins /data" ]
     securityContext:
       runAsUser: 0
     volumeMounts:
@@ -25,8 +24,8 @@ spec:
   containers:
   - name: {{ include "app.name" . }}
     image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-    command: ['tail']
-    args:  ['-f', '/dev/null']
+    command: [ "/bin/bash", "-c", "--" ]
+    args:  [ "while true; do sleep 30; done;" ]
     volumeMounts:
     - name: {{ include "app.name" . }}-vol
       mountPath: /data
