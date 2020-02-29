@@ -10,6 +10,7 @@ metadata:
   annotations:
     "helm.sh/hook": test-success
 spec:
+  service: {{ include "app.name" . }}-mysql
   initContainers:
   - name: init-{{ include "app.name" . }}-mysql
     image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
