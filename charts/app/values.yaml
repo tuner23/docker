@@ -8,8 +8,10 @@ replicaCount: 1
 
 image:
   repository: tuner/app
+  mysqlitory: tuner/mysql
   tag: latest
   pullPolicy: Always
+
 
 mysql:
   type: NodePort

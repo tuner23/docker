@@ -8,6 +8,10 @@ ENV CONTAINER_NAME="mysql" \
     REPO_PATH="/data/mysql" \
     VERSION="1.1.3"
 RUN useradd -m -g root -s /bin/bash ${USER} && \
+    usermod -a -G mysql app && \
+    chown -R app /var/lib/mysql && \
+    chown -R app /var/log/mysql/ && \
+    chown -R app /var/run/mysqld/ && \
     echo -e "set enc=utf-8\nset fenc=utf-8\nset termencoding=utf-8\nset expandtab\nset ai\nset autoindent\nset tabstop=4\nset paste\nset ruler\nsyntax on" > "${USER_HOME}/.vimrc" && \
     grep -qF "alias ll='ls -la --color=auto'" "${USER_HOME}/.bashrc" || echo "alias ll='ls -la --color=auto'" >> "${USER_HOME}/.bashrc" && \
     echo -e "[client]\nuser=root\npassword='lpBiG423'\n\n[mysql]\nuser=root\npassword='lpBiG423'\n" > ${USER_HOME}/.my.cnf && \
