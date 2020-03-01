@@ -15,7 +15,7 @@ spec:
   - name: init-{{ include "app.name" . }}-mysql
     image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
     command: [ "/bin/bash", "-c", "--" ]
-    args:  [ "usermod -a -G mysql app && chown -R app /data" ]
+    args:  [ "touch /data/test" ]
     securityContext:
       runAsUser: 0
     volumeMounts:
@@ -23,7 +23,7 @@ spec:
       mountPath: /data
   containers:
   - name: {{ include "app.name" . }}-mysql
-    image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+    image: "{{ .Values.image.mysqlitory }}:{{ .Values.image.tag }}"
     command: [ "/bin/bash", "-c", "--" ]
     args:  [ "while true; do sleep 30; done;" ]
     volumeMounts:

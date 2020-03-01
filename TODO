@@ -1,4 +1,2 @@
 * run git as git user with initContainers
 * run jenkins as jenkins user with initContainers
-* fix bash: cd: /data/app: No such file or directory
-

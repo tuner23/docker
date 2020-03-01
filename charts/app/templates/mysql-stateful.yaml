@@ -21,7 +21,7 @@ spec:
       - name: init-{{ include "app.name" . }}-mysql
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         command: [ "/bin/bash", "-c", "--" ]
-        args:  [ "touch /data/test && chown app /data" ]
+        args:  [ "touch /data/test" ]
         securityContext:
           runAsUser: 0
         volumeMounts:
@@ -29,7 +29,7 @@ spec:
           mountPath: /data
       containers:
         - name: {{ include "app.name" . }}-mysql
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.image.mysqlitory }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: [ "/bin/bash", "-c", "--" ]
           args:  [ "while true; do sleep 30; done;" ]
