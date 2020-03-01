@@ -8,10 +8,10 @@ metadata:
     service: {{ include "app.name" . }}
 {{ include "app.labels" . | indent 4 }}
 spec:
-  type: {{ .Values.service-mysql.type }}
+  type: {{ .Values.mysql.type }}
   ports:
-    - port: {{ .Values.service-mysql.port }}
-      nodePort: {{ .Values.service-mysql.nodePort }}
+    - port: {{ .Values.mysql.port }}
+      nodePort: {{ .Values.mysql.nodePort }}
   selector:
     app.kubernetes.io/name: {{ include "app.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}

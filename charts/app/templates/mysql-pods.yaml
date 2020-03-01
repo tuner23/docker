@@ -15,7 +15,7 @@ spec:
   - name: init-{{ include "app.name" . }}-mysql
     image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
     command: [ "/bin/bash", "-c", "--" ]
-    args:  [ "touch /data/test && chown -R app /data" ]
+    args:  [ "usermod -a -G mysql app && chown -R app /data" ]
     securityContext:
       runAsUser: 0
     volumeMounts:

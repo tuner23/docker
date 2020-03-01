@@ -11,12 +11,12 @@ image:
   tag: latest
   pullPolicy: Always
 
-service-mysql:
+mysql:
   type: NodePort
   port: 3306
   nodePort: 31306
 
-service-server:
+server:
   type: NodePort
   port: 4234
-  nodePort: 31306
+  nodePort: 31423

@@ -8,10 +8,10 @@ metadata:
     service: {{ include "app.name" . }}
 {{ include "app.labels" . | indent 4 }}
 spec:
-  type: {{ .Values.service-server.type }}
+  type: {{ .Values.server.type }}
   ports:
-    - port: {{ .Values.service-server.port }}
-      nodePort: {{ .Values.service-server.nodePort }}
+    - port: {{ .Values.server.port }}
+      nodePort: {{ .Values.server.nodePort }}
   selector:
     app.kubernetes.io/name: {{ include "app.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
