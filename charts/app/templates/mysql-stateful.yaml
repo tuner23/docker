@@ -32,7 +32,7 @@ spec:
           image: "{{ .Values.image.mysqlitory }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: [ "/bin/bash", "-c", "--" ]
-          args:  [ "while true; do sleep 30; done;" ]
+          args:  [ "/start_container.sh" ]
           volumeMounts:
             - mountPath: /data
               name: {{ include "app.name" . }}-mysql-vol

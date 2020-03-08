@@ -9,17 +9,11 @@
 if [ ! -d "${REPO_PATH}" ]; then
   cp -pr /var/lib/mysql /data/
   chown -R ${USER}:mysql /data
+  echo "ALTER USER 'root'@'localhost' IDENTIFIED BY 'sP@55';" > /home/${USER}/mysql.init
 
-  /usr/sbin/mysqld --defaults-file=/etc/mysql/my.cnf --secure-file-priv=/data/tmp.load --explicit_defaults_for_timestamp --basedir=/usr --log-bin=mysqld-bin &
-  sleep 10
-    # Because our hostname varies we'll use some Bash magic here.
-    mysql -e "CREATE USER 'projects'@'%' IDENTIFIED BY 'mg6779';"
-    mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'projects'@'%';"
-    
-    # Make our changes take effect
-    mysql -e "FLUSH PRIVILEGES"
-else
-    /usr/sbin/mysqld --defaults-file=/etc/mysql/my.cnf --secure-file-priv=/data/tmp.load --explicit_defaults_for_timestamp --basedir=/usr --log-bin=mysqld-bin &
+  mysqld --user=mysql --init-file=/home/${USER}/mysql.init --console --defaults-file=/etc/mysql/my.cnf --explicit_defaults_for_timestamp 
 fi
+
+/usr/sbin/mysqld --defaults-file=/etc/mysql/my.cnf --secure-file-priv=/data/tmp.load --explicit_defaults_for_timestamp --basedir=/usr --log-bin=mysqld-bin &
 
 while true; do sleep 30; done;

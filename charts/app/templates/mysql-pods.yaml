@@ -25,7 +25,7 @@ spec:
   - name: {{ include "app.name" . }}-mysql
     image: "{{ .Values.image.mysqlitory }}:{{ .Values.image.tag }}"
     command: [ "/bin/bash", "-c", "--" ]
-    args:  [ "while true; do sleep 30; done;" ]
+    args:  [ "/start_container.sh" ]
     volumeMounts:
     - name: {{ include "app.name" . }}-mysql-vol
       mountPath: /data
