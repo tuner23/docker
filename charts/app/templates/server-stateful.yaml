@@ -21,8 +21,6 @@ spec:
         - name: {{ include "app.name" . }}-server
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: [ "/bin/bash", "-c", "--" ]
-          args:  [ "while true; do sleep 30; done;" ]
           ports:
             - containerPort: 4234
               protocol: TCP

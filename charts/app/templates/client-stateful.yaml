@@ -20,5 +20,3 @@ spec:
         - name: {{ include "app.name" . }}-client
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: [ "/bin/bash", "-c", "--" ]
-          args:  [ "while true; do sleep 30; done;" ]
