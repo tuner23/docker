@@ -1,2 +1,3 @@
+* reinitialize from empty /data/-paths, etc
 * run git as git user with initContainers
 * run jenkins as jenkins user with initContainers
