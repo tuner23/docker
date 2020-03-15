@@ -9,7 +9,7 @@ if [[ ! -d "${REPO_PATH}/hooks" ]] ; then
   /usr/bin/git init --bare
   
   ## Add post-commit hook
- cat <<\EOF > ${REPO_PATH}/hooks/post-commit
+ cat <<\EOF > ${REPO_PATH}/hooks/post-receive
 #!/bin/sh
 exec curl -v http://jenkins:8080/git/notifyCommit?url='git://git:9418/data/repo'
 EOF
