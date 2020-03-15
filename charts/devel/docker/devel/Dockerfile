@@ -8,7 +8,7 @@ ENV CONTAINER_NAME="devel" \
     REPO_PATH="/data/devel" \
     PYTHONV="python3.6" \
     VERSION="1.1.3"
-RUN useradd -m -U -s /bin/bash ${USER} && \
+RUN useradd -d ${USER_HOME} -m -U -s /bin/bash ${USER} && \
     eselect python set "`eselect python list | grep ${PYTHONV} | awk '{ print $1 }' | grep -o '[0-9]'`" && \
     su - ${USER} -c "pip install --user setuptools django" && \
     echo -e "set enc=utf-8\nset fenc=utf-8\nset termencoding=utf-8\nset expandtab\nset ai\nset autoindent\nset tabstop=4\nset paste\nset ruler\nsyntax on" > "${USER_HOME}/.vimrc" && \

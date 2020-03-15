@@ -14,7 +14,7 @@ RUN useradd -m -g root -s /bin/bash ${USER} && \
     chown -R app /var/run/mysqld/ && \
     echo -e "set enc=utf-8\nset fenc=utf-8\nset termencoding=utf-8\nset expandtab\nset ai\nset autoindent\nset tabstop=4\nset paste\nset ruler\nsyntax on" > "${USER_HOME}/.vimrc" && \
     grep -qF "alias ll='ls -la --color=auto'" "${USER_HOME}/.bashrc" || echo "alias ll='ls -la --color=auto'" >> "${USER_HOME}/.bashrc" && \
-    echo -e "[client]\nuser=root\npassword='sP@55'\n\n[mysql]\nuser=root\npassword='sP@55'\n" > ${USER_HOME}/.my.cnf && \
+    ln -s /data/my.cnf ${USER_HOME}/.my.cnf && \
     /bin/sed -i.bak 's:\(^datadir.*\)/var/lib/mysql\(.*\):\1'"${REPO_PATH}"':g' /etc/mysql/mysql.d/50-distro-server.cnf && \
     /bin/sed -i.bak 's/^bind-address\s\s*=\s\s*127.0.0.1/bind-address = 0.0.0.0/g' /etc/mysql/mysql.d/50-distro-server.cnf && \
     echo ${CONTAINER_NAME} ${VERSION} > /etc/docker.type

@@ -3,7 +3,7 @@
 FROM tuner/gentoo-skel:latest
 ENV CONTAINER_NAME="app" \
     USER="app" \
-    USER_HOME="/data" \
+    USER_HOME="/home/app" \
     MAIL="app@localhost" \
     REPO_PATH="/data/app" \
     PYTHONV="python3.6" \
