@@ -3,7 +3,7 @@
 FROM tuner/gentoo-skel:latest
 ENV CONTAINER_NAME="devel" \
     USER="devel" \
-    USER_HOME="/home/devel" \
+    USER_HOME="/data" \
     MAIL="devel@localhost" \
     REPO_PATH="/data/devel" \
     PYTHONV="python3.6" \
@@ -16,6 +16,7 @@ RUN useradd -d ${USER_HOME} -m -U -s /bin/bash ${USER} && \
     grep -qF "cd ${REPO_PATH}" "${USER_HOME}/.bashrc" || echo "cd ${REPO_PATH}" >> "${USER_HOME}/.bashrc" && \
     grep -qF "(git pull || true)" "${USER_HOME}/.bashrc" || echo "(git pull || true)" >> "${USER_HOME}/.bashrc" && \
     grep -qF 'export PATH="/home/'"${USER}"'/.local/bin:'"${PATH}"'"' "${USER_HOME}/.bashrc" || echo 'export PATH="/home/'"${USER}"'/.local/bin:'"${PATH}"'"' >> "${USER_HOME}/.bashrc" && \
+    cp -pr ${USER_HOME} /home/devel.home/ && \
     echo ${CONTAINER_NAME} ${VERSION} > /etc/docker.type
 COPY /start_container.sh /start_container.sh
 VOLUME ["/data"]

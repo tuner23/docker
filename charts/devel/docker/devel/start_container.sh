@@ -1,4 +1,8 @@
 #!/bin/bash
+
+if [[ ! -f /data/.bashrc ]] ; then
+  cp -pr /home/devel.home/.* /data/
+fi
   
 if [[ ! -d ${REPO_PATH} && "$(whoami)" == "devel" ]] ; then
   git clone git://git:/data/repo ${REPO_PATH}
