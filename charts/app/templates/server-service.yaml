@@ -5,7 +5,6 @@ metadata:
   name: {{ include "app.name" . }}-server
   namespace: {{ .Values.nameSpace }}
   labels:
-    service: {{ include "app.name" . }}
 {{ include "app.labels" . | indent 4 }}
 spec:
   type: {{ .Values.server.type }}
@@ -13,6 +12,6 @@ spec:
     - port: {{ .Values.server.port }}
       nodePort: {{ .Values.server.nodePort }}
   selector:
-    app.kubernetes.io/name: {{ include "app.name" . }}
+    app.kubernetes.io/name: {{ include "app.name" . }}-server
     app.kubernetes.io/instance: {{ .Release.Name }}
 

@@ -5,12 +5,10 @@ metadata:
   name: {{ include "app.name" . }}-mysql
   namespace: {{ .Values.nameSpace }}
   labels:
-    service: {{ include "app.name" . }}-mysql
 {{ include "app.labels" . | indent 4 }}
   annotations:
     "helm.sh/hook": test-success
 spec:
-  service: {{ include "app.name" . }}-mysql
   initContainers:
   - name: init-{{ include "app.name" . }}-mysql
     image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"

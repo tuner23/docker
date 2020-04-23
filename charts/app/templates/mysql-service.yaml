@@ -5,7 +5,6 @@ metadata:
   name: {{ include "app.name" . }}-mysql
   namespace: {{ .Values.nameSpace }}
   labels:
-    service: {{ include "app.name" . }}
 {{ include "app.labels" . | indent 4 }}
 spec:
   type: {{ .Values.mysql.type }}

@@ -13,7 +13,7 @@ if [[ ! -d "${REPO_PATH}/hooks" ]] ; then
 #!/bin/sh
 exec curl -v http://jenkins:8080/git/notifyCommit?url='git://git:9418/data/repo'
 EOF
-  chmod 755 ${REPO_PATH}/hooks/post-commit
+  chmod 755 ${REPO_PATH}/hooks/post-receive
 fi
  
 chown -R ${USER}:${USER} ${REPO_PATH}
