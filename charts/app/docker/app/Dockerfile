@@ -10,7 +10,7 @@ ENV CONTAINER_NAME="app" \
     VERSION="1.1.3"
 RUN useradd -d ${USER_HOME} -m -U -s /bin/bash ${USER} && \
     eselect python set "`eselect python list | grep ${PYTHONV} | awk '{ print $1 }' | grep -o '[0-9]'`" && \
-    su - ${USER} -c "pip install --user setuptools django pymysql flask dotmap flask_restful cryptography urllib3 lark" && \
+    su - ${USER} -c "pip install --user setuptools django pymysql flask dotmap flask_restful cryptography urllib3 lark-parser" && \
     echo -e "set enc=utf-8\nset fenc=utf-8\nset termencoding=utf-8\nset expandtab\nset ai\nset autoindent\nset tabstop=4\nset paste\nset ruler\nsyntax on" > "${USER_HOME}/.vimrc" && \
     grep -qF "alias ll='ls -la --color=auto'" "${USER_HOME}/.bashrc" || echo "alias ll='ls -la --color=auto'" >> "${USER_HOME}/.bashrc" && \
     grep -qF "cd ${WORK_PATH}" "${USER_HOME}/.bashrc" || echo "cd ${WORK_PATH}" >> "${USER_HOME}/.bashrc" && \
