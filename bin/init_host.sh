@@ -24,6 +24,8 @@ echo "alias helm='microk8s.helm'" >>  /home/tuner/.bash_aliases
 echo "alias kubectl='microk8s.kubectl'" >>  /root/.bash_aliases
 chown tuner /home/tuner/.bash_aliases
 
+echo "net.ipv4.tcp_keepalive_time = 86400" >> /etc/sysctl.conf
+
 mv /var/lib/docker/ /storage/
 ln -s /storage/docker /var/lib/docker
 

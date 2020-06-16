@@ -10,7 +10,8 @@ COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
 ## Install some essentials
 RUN echo 'alias ll="ls -lah --color=auto"' >> /etc/bash/bashrc && \
-    emerge -D app-editors/vim dev-vcs/git
+    emerge -D app-editors/vim dev-vcs/git && \
+    echo "net.ipv4.tcp_keepalive_time = 86400" >> /etc/sysctl.conf
 
 ## Remove unnecessary stuff
 RUN rm -rf /usr/share/doc/* && \
