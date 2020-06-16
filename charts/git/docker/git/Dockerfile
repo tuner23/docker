@@ -8,7 +8,7 @@ ENV CONTAINER_NAME="git" \
     REPO_PATH="/data/repo/" \
     VERSION="2.0"
 EXPOSE 9418
-RUN useradd -d ${USER_HOME} -m -U -g ${USER} -s /usr/bin/git-shell ${USER} && \
+RUN useradd -d ${USER_HOME} -m -U -s /usr/bin/git-shell ${USER} && \
     cd /root && tar -cvzf user_home.tgz -C /data ./ && \
     echo ${CONTAINER_NAME} ${VERSION} > /etc/docker.type
 COPY /start_container.sh /start_container.sh
