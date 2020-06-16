@@ -3,12 +3,13 @@
 FROM tuner/gentoo-skel:latest
 ENV CONTAINER_NAME="git" \
     USER="git" \
+    USER_HOME="/data" \
     MAIL="git@localhost" \
     REPO_PATH="/data/repo/" \
-    VERSION="1.1.2"
+    VERSION="2.0"
 EXPOSE 9418
-RUN groupadd ${USER} && \
-    useradd -m -g ${USER} -s /usr/bin/git-shell ${USER} && \
+RUN useradd -d ${USER_HOME} -m -U -g ${USER} -s /usr/bin/git-shell ${USER} && \
+    cd /root && tar -cvzf user_home.tgz -C /data ./ && \
     echo ${CONTAINER_NAME} ${VERSION} > /etc/docker.type
 COPY /start_container.sh /start_container.sh
 VOLUME ["/data"]

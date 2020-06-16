@@ -1,0 +1,21 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ include "app.name" . }}-server-pv
+  namespace: {{ .Values.nameSpace }}
+  labels:
+    type: local
+{{ include "app.labels" . | indent 4 }}
+spec:
+  storageClassName: tuni.thek
+  capacity:
+    storage: 100Mi
+  accessModes:
+  - ReadWriteOnce
+  hostPath:
+    path: /data/volumes/{{ include "app.name" . }}-server
+  persistentVolumeReclaimPolicy: Retain
+  claimRef:
+    namespace: {{ .Values.nameSpace }}
+    name: {{ include "app.name" . }}-server-pvc

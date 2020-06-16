@@ -17,11 +17,26 @@ spec:
         app.kubernetes.io/name: {{ include "app.name" . }}-server
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      initContainers:
+      - name: init-{{ include "app.name" . }}-server
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        securityContext:
+          runAsUser: 0
+        volumeMounts:
+        - name: {{ include "app.name" . }}-server-vol
+          mountPath: /data
       containers:
         - name: {{ include "app.name" . }}-server
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - mountPath: /data
+              name: {{ include "app.name" . }}-server-vol
           ports:
-            - containerPort: 4234
+            - containerPort: {{ .Values.server.port }}
               protocol: TCP
+      volumes:
+        - name: {{ include "app.name" . }}-server-vol
+          persistentVolumeClaim:
+            claimName: {{ include "app.name" . }}-server-pvc
 

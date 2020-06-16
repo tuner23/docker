@@ -9,9 +9,26 @@ metadata:
   annotations:
     "helm.sh/hook": test-success
 spec:
+  initContainers:
+  - name: init-{{ include "app.name" . }}-client
+    image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+    command: [ "/bin/bash", "-c", "--" ]
+    args:  [ "test ! -f /data/.bash_history && cd /data && tar xvzf /root/user_home.tgz ; echo 'while true; do sleep 30; done;' >> /start_container.sh ; chown -R app /data" ]
+    securityContext:
+      runAsUser: 0
+    volumeMounts:
+    - name: {{ include "app.name" . }}-client-vol
+      mountPath: /data
   containers:
   - name: {{ include "app.name" . }}-client
     image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
     command: [ "/bin/bash", "-c", "--" ]
-    args:  [ "while true; do sleep 30; done;" ]
+    args:  [ "/start_container.sh" ]
+    volumeMounts:
+    - name: {{ include "app.name" . }}-client-vol
+      mountPath: /data
+  volumes:
+  - name: {{ include "app.name" . }}-client-vol
+    persistentVolumeClaim:
+      claimName: {{ include "app.name" . }}-client-pvc
   restartPolicy: Never

@@ -6,6 +6,7 @@
     emerge --sync
     echo "dev-lang/python sqlite" >> /etc/portage/package.use/own
     echo 'alias ll="ls -lah --color=auto"' >> /etc/bash/bashrc 
+    echo "net.ipv4.tcp_keepalive_time = 86400" >> /etc/sysctl.conf
     echo 'ACCEPT_KEYWORDS="~amd64"' >> /etc/portage/make.conf
     emerge -D --autounmask-write dev-util/jenkins-bin
     etc-update --automode -5

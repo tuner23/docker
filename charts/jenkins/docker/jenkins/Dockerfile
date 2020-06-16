@@ -9,7 +9,7 @@ ENV CONTAINER_NAME="jenkins" \
     JENKINS_WAR="/data/jenkins/jenkins.war" \
     JENKINS_PORT="8080" \
     JENKINS_DEBUG_LEVEL="5" \
-    VERSION="1.1.0"
+    VERSION="2.0"
 EXPOSE 8080
 RUN usermod -u 1000 jenkins && \
     groupmod -g 1000 jenkins && \

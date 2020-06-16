@@ -16,7 +16,16 @@ spec:
         app.kubernetes.io/name: {{ include "app.name" . }}-client
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      initContainers:
+      - name: init-{{ include "app.name" . }}-client
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        securityContext:
+          runAsUser: 0
+        volumeMounts:
+        - name: {{ include "app.name" . }}-client-vol
+          mountPath: /data
       containers:
         - name: {{ include "app.name" . }}-client
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+

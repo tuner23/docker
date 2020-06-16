@@ -20,5 +20,11 @@ mysql:
 
 server:
   type: NodePort
+  port: 8081
+  nodePort: 31081
+
+compute:
+  type: NodePort
   port: 4234
   nodePort: 31423
+

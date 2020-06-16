@@ -3,11 +3,11 @@
 FROM tuner/gentoo-skel:latest
 ENV CONTAINER_NAME="app" \
     USER="app" \
-    USER_HOME="/home/app" \
+    USER_HOME="/data" \
     MAIL="app@localhost" \
     WORK_PATH="/data" \
-    PYTHONV="python3.6" \
-    VERSION="1.1.3"
+    PYTHONV="python3" \
+    VERSION="2.0"
 RUN useradd -d ${USER_HOME} -m -U -s /bin/bash ${USER} && \
     eselect python set "`eselect python list | grep ${PYTHONV} | awk '{ print $1 }' | grep -o '[0-9]'`" && \
     su - ${USER} -c "pip install --user setuptools django pymysql flask dotmap flask_restful cryptography urllib3 lark-parser" && \
@@ -17,6 +17,7 @@ RUN useradd -d ${USER_HOME} -m -U -s /bin/bash ${USER} && \
     grep -qF 'export PATH="/home/'"${USER}"'/.local/bin:'"${PATH}"'"' "${USER_HOME}/.bashrc" || echo 'export PATH="/home/'"${USER}"'/.local/bin:'"${PATH}"'"' >> "${USER_HOME}/.bashrc" && \
     mkdir -p "${WORK_PATH}" && \
     chown "${USER}" "${WORK_PATH}" && \
+    cd /root && tar -cvzf user_home.tgz -C /data ./ && \
     echo ${CONTAINER_NAME} ${VERSION} > /etc/docker.type
 COPY /start_container.sh /start_container.sh
 #VOLUME ["/data"]

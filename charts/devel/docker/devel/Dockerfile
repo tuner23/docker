@@ -6,8 +6,8 @@ ENV CONTAINER_NAME="devel" \
     USER_HOME="/data" \
     MAIL="devel@localhost" \
     REPO_PATH="/data/devel" \
-    PYTHONV="python3.6" \
-    VERSION="1.1.3"
+    PYTHONV="python3" \
+    VERSION="2.0"
 RUN useradd -d ${USER_HOME} -m -U -s /bin/bash ${USER} && \
     eselect python set "`eselect python list | grep ${PYTHONV} | awk '{ print $1 }' | grep -o '[0-9]'`" && \
     su - ${USER} -c "pip install --user setuptools django dotmap flask pymysql flask_restful cryptography urllib3 lark-parser" && \
@@ -16,7 +16,7 @@ RUN useradd -d ${USER_HOME} -m -U -s /bin/bash ${USER} && \
     grep -qF "cd ${REPO_PATH}" "${USER_HOME}/.bashrc" || echo "cd ${REPO_PATH}" >> "${USER_HOME}/.bashrc" && \
     grep -qF "(git pull || true)" "${USER_HOME}/.bashrc" || echo "(git pull || true)" >> "${USER_HOME}/.bashrc" && \
     grep -qF 'export PATH="/home/'"${USER}"'/.local/bin:'"${PATH}"'"' "${USER_HOME}/.bashrc" || echo 'export PATH="/home/'"${USER}"'/.local/bin:'"${PATH}"'"' >> "${USER_HOME}/.bashrc" && \
-    cp -pr ${USER_HOME} /home/devel.home/ && \
+    cd /root && tar -cvzf user_home.tgz -C /data ./ && \
     echo ${CONTAINER_NAME} ${VERSION} > /etc/docker.type
 COPY /start_container.sh /start_container.sh
 VOLUME ["/data"]

@@ -1,41 +1,42 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ include "app.name" . }}-mysql
+  name: {{ include "app.name" . }}-compute
   namespace: {{ .Values.nameSpace }}
   labels:
 {{ include "app.labels" . | indent 4 }}
 spec:
-  serviceName: {{ include "app.name" . }}-mysql
+  serviceName: {{ include "app.name" . }}-compute
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "app.name" . }}-mysql
+      app.kubernetes.io/name: {{ include "app.name" . }}-compute
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "app.name" . }}-mysql
+        app.kubernetes.io/name: {{ include "app.name" . }}-compute
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       initContainers:
-      - name: init-{{ include "app.name" . }}-mysql
+      - name: init-{{ include "app.name" . }}-compute
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         securityContext:
           runAsUser: 0
         volumeMounts:
-        - name: {{ include "app.name" . }}-mysql-vol
+        - name: {{ include "app.name" . }}-compute-vol
           mountPath: /data
       containers:
-        - name: {{ include "app.name" . }}-mysql
-          image: "{{ .Values.image.mysqlitory }}:{{ .Values.image.tag }}"
+        - name: {{ include "app.name" . }}-compute
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
             - mountPath: /data
-              name: {{ include "app.name" . }}-mysql-vol
+              name: {{ include "app.name" . }}-compute-vol
           ports:
-            - containerPort: {{ .Values.mysql.port }}
+            - containerPort: {{ .Values.compute.port }}
               protocol: TCP
       volumes:
-        - name: {{ include "app.name" . }}-mysql-vol
+        - name: {{ include "app.name" . }}-compute-vol
           persistentVolumeClaim:
-            claimName: {{ include "app.name" . }}-mysql-pvc
+            claimName: {{ include "app.name" . }}-compute-pvc
+
