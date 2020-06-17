@@ -11,9 +11,10 @@
     emerge -D --autounmask-write dev-util/jenkins-bin
     etc-update --automode -5
     emerge -avD dev-python/pip dev-lang/python dev-vcs/git dev-db/mysql app-editors/vim dev-util/jenkins-bin sys-cluster/kubectl app-misc/jq
+    emerge --config dev-db/mysql
     rm -rf /var/db/repos/gentoo
     rm -rf /var/cache/distfiles/*
-    docker commit -m "manually compiled all" <IGAME_ID> tuner/gentoo-skel:latest
+    docker commit -m "manually compiled" <IGAME_ID> tuner/gentoo-skel:latest
     docker login
     docker push tuner/gentoo-skel:latest
 ```

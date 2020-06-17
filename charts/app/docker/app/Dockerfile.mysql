@@ -7,14 +7,14 @@ ENV CONTAINER_NAME="mysql" \
     MAIL="app-mysql@localhost" \
     REPO_PATH="/data/mysql" \
     VERSION="2.0"
-RUN useradd -m -g root -s /bin/bash ${USER} && \
+RUN useradd -d ${USER_HOME} -m -g root -s /bin/bash ${USER} && \
     usermod -a -G mysql app && \
-    chown -R app /var/lib/mysql && \
+    test ! -d /var/lib/mysql || chown -R ${USER} /var/lib/mysql && \
     chown -R app /var/log/mysql/ && \
     chown -R app /var/run/mysqld/ && \
     echo -e "set enc=utf-8\nset fenc=utf-8\nset termencoding=utf-8\nset expandtab\nset ai\nset autoindent\nset tabstop=4\nset paste\nset ruler\nsyntax on" > "${USER_HOME}/.vimrc" && \
     grep -qF "alias ll='ls -la --color=auto'" "${USER_HOME}/.bashrc" || echo "alias ll='ls -la --color=auto'" >> "${USER_HOME}/.bashrc" && \
-    ln -s /data/my.cnf ${USER_HOME}/.my.cnf && \
+    echo -e "[client]\nuser=root\npassword='sP@55'\n\n[mysql]\nuser=root\npassword='sP@55'\n" > /data/.my.cnf && \
     /bin/sed -i.bak 's:\(^datadir.*\)/var/lib/mysql\(.*\):\1'"${REPO_PATH}"':g' /etc/mysql/mysql.d/50-distro-server.cnf && \
     /bin/sed -i.bak 's/^bind-address\s\s*=\s\s*127.0.0.1/bind-address = 0.0.0.0/g' /etc/mysql/mysql.d/50-distro-server.cnf && \
     cd /root && tar -cvzf user_home.tgz -C /data ./ && \
