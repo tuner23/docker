@@ -13,7 +13,7 @@ spec:
   - name: init-{{ include "app.name" . }}-compute
     image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
     command: [ "/bin/bash", "-c", "--" ]
-    args:  [ "test ! -f /data/.bash_history && cd /data && tar xvzf /root/user_home.tgz ; echo 'test -d /data/app && cd /data/app && ./mg-compute.py' >> /start_container.sh ; echo 'while true; do sleep 30; done;' >> /start_container.sh ; chown -R app /data" ]
+    args:  [ "test ! -f /data/.bashrc && cd /data && tar xvzf /root/user_home.tgz ; echo 'test -d /data/app && cd /data/app && ./mg-compute.py' >> /start_container.sh ; echo 'while true; do sleep 30; done;' >> /start_container.sh ; chown -R app /data" ]
     securityContext:
       runAsUser: 0
     volumeMounts:
