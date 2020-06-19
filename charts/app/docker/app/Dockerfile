@@ -17,7 +17,7 @@ RUN useradd -d ${USER_HOME} -m -U -s /bin/bash ${USER} && \
     chown "${USER}" "${USER_HOME}" && \
     cd /root && tar -cvzf user_home.tgz -C /data ./ && \
     echo ${CONTAINER_NAME} ${VERSION} > /etc/docker.type
-COPY /start_container.sh /data/start_container.sh
+#COPY /start_container.sh /data/start_container.sh
 VOLUME ["/data"]
 USER ${USER}
 ENTRYPOINT ["/data/start_container.sh"]
