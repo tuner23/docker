@@ -20,7 +20,7 @@ spec:
       - name: init-{{ include "app.name" . }}-client
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         command: [ "/bin/bash", "-c", "--" ]
-        args:  [ "test ! -f /data/.bashrc && cd /data && tar xvzf /root/user_home.tgz || true ; echo '#!/bin/bash' > /data/start_container.sh ; echo 'while true; do sleep 30; done;' >> /data/start_container.sh ; chmod u+x /data/start_container.sh ; chown -R app /data" ]
+        args:  [ "cd /data && tar xvzf --skip-old-files /tmp/user_home.tgz ; echo '#!/bin/bash' > /data/start_container.sh ; echo 'while true; do sleep 30; done;' >> /data/start_container.sh ; chmod u+x /data/start_container.sh ; chown -R app /data" ]
         securityContext:
           runAsUser: 0
         volumeMounts:

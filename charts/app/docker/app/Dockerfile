@@ -15,7 +15,7 @@ RUN useradd -d ${USER_HOME} -m -U -s /bin/bash ${USER} && \
     grep -qF "cd ${USER_HOME}" "${USER_HOME}/.bashrc" || echo "cd ${USER_HOME}" >> "${USER_HOME}/.bashrc" && \
     grep -qF 'export PATH="/home/'"${USER}"'/.local/bin:'"${PATH}"'"' "${USER_HOME}/.bashrc" || echo 'export PATH="/home/'"${USER}"'/.local/bin:'"${PATH}"'"' >> "${USER_HOME}/.bashrc" && \
     chown "${USER}" "${USER_HOME}" && \
-    cd /root && tar -cvzf user_home.tgz -C /data ./ && \
+    cd /tmp/ && tar -cvzf user_home.tgz -C /data ./ && \
     echo ${CONTAINER_NAME} ${VERSION} > /etc/docker.type
 #COPY /start_container.sh /data/start_container.sh
 VOLUME ["/data"]
