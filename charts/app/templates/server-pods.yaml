@@ -12,8 +12,6 @@ spec:
   initContainers:
   - name: init-{{ include "app.name" . }}-server
     image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-    command: [ "/bin/bash", "-c", "--" ]
-    args:  [ "test ! -f /data/.bashrc && cd /data && tar xvzf /root/user_home.tgz ; echo 'test -d /data/app && cd /data/app && ./mg-server.py' >> /start_container.sh ; echo 'while true; do sleep 30; done;' >> /start_container.sh ; chown -R app /data" ]
     securityContext:
       runAsUser: 0
     volumeMounts:
@@ -22,8 +20,6 @@ spec:
   containers:
   - name: {{ include "app.name" . }}-server
     image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-    command: [ "/bin/bash", "-c", "--" ]
-    args:  [ "/start_container.sh" ]
     volumeMounts:
     - name: {{ include "app.name" . }}-server-vol
       mountPath: /data

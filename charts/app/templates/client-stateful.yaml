@@ -19,6 +19,8 @@ spec:
       initContainers:
       - name: init-{{ include "app.name" . }}-client
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        command: [ "/bin/bash", "-c", "--" ]
+        args:  [ "test ! -f /data/.bashrc && cd /data && tar xvzf /root/user_home.tgz || true ; echo '#!/bin/bash' > /data/start_container.sh ; echo 'while true; do sleep 30; done;' >> /data/start_container.sh ; chmod u+x /data/start_container.sh ; chown -R app /data" ]
         securityContext:
           runAsUser: 0
         volumeMounts:
@@ -28,4 +30,12 @@ spec:
         - name: {{ include "app.name" . }}-client
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - mountPath: /data
+              name: {{ include "app.name" . }}-client-vol
+      volumes:
+        - name: {{ include "app.name" . }}-client-vol
+          persistentVolumeClaim:
+            claimName: {{ include "app.name" . }}-client-pvc
+
 

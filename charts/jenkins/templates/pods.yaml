@@ -14,8 +14,6 @@ spec:
   initContainers:
   - name: init-{{ include "app.name" . }}
     image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-    command: [ "/bin/bash", "-c", "--" ]
-    args:  [ "chown -R jenkins /data" ]
     securityContext:
       runAsUser: 0
     volumeMounts:

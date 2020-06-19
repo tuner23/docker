@@ -20,6 +20,8 @@ spec:
       initContainers:
       - name: init-{{ include "app.name" . }}-mysql
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        command: [ "/bin/bash", "-c", "--" ]
+        args:  [ "test ! -f /data/.bashrc && cd /data && tar xvzf /root/user_home.tgz || true ; mkdir -p /data/tmp.load ; chmod 700 /data/tmp.load; chown -R app:mysql /data" ]
         securityContext:
           runAsUser: 0
         volumeMounts:

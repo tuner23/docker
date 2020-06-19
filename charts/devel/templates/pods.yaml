@@ -13,8 +13,6 @@ spec:
   initContainers:
   - name: init-{{ include "app.name" . }}
     image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-    command: [ "/bin/bash", "-c", "--" ]
-    args:  [ "test ! -f /data/.bashrc && cd /data && tar xvzf /root/user_home.tgz ; chown -R devel /data" ]
     securityContext:
       runAsUser: 0
     volumeMounts:

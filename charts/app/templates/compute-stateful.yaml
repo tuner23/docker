@@ -6,7 +6,6 @@ metadata:
   labels:
 {{ include "app.labels" . | indent 4 }}
 spec:
-  serviceName: {{ include "app.name" . }}-compute
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "app.name" . }}-compute
@@ -20,6 +19,8 @@ spec:
       initContainers:
       - name: init-{{ include "app.name" . }}-compute
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        command: [ "/bin/bash", "-c", "--" ]
+        args:  [ "test ! -f /data/.bashrc && cd /data && tar xvzf /root/user_home.tgz || true ; echo '#!/bin/bash' > /data/start_container.sh ; echo 'while true; do sleep 30; done;' >> /data/start_container.sh ; chmod u+x /data/start_container.sh ; chown -R app /data" ]
         securityContext:
           runAsUser: 0
         volumeMounts:
@@ -32,9 +33,6 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: {{ include "app.name" . }}-compute-vol
-          ports:
-            - containerPort: {{ .Values.compute.port }}
-              protocol: TCP
       volumes:
         - name: {{ include "app.name" . }}-compute-vol
           persistentVolumeClaim:
