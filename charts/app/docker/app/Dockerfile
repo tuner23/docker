@@ -5,7 +5,7 @@ ENV CONTAINER_NAME="app" \
     USER="app" \
     USER_HOME="/data" \
     MAIL="app@localhost" \
-    PYTHONV="python3" \
+    PYTHONV="python3.7" \
     VERSION="2.0"
 RUN useradd -d ${USER_HOME} -m -U -s /bin/bash ${USER} && \
     eselect python set "`eselect python list | grep ${PYTHONV} | awk '{ print $1 }' | grep -o '[0-9]'`" && \
@@ -18,6 +18,6 @@ RUN useradd -d ${USER_HOME} -m -U -s /bin/bash ${USER} && \
     cd /tmp/ && tar -cvzf user_home.tgz -C /data ./ && \
     echo ${CONTAINER_NAME} ${VERSION} > /etc/docker.type
 #COPY /start_container.sh /data/start_container.sh
-VOLUME ["/data"]
+#VOLUME ["/data"]
 USER ${USER}
 ENTRYPOINT ["/data/start_container.sh"]

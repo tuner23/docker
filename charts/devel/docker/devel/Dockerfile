@@ -6,7 +6,7 @@ ENV CONTAINER_NAME="devel" \
     USER_HOME="/data" \
     MAIL="devel@localhost" \
     REPO_PATH="/data/devel" \
-    PYTHONV="python3" \
+    PYTHONV="python3.7" \
     VERSION="2.0"
 RUN useradd -d ${USER_HOME} -m -U -s /bin/bash ${USER} && \
     eselect python set "`eselect python list | grep ${PYTHONV} | awk '{ print $1 }' | grep -o '[0-9]'`" && \
@@ -19,7 +19,7 @@ RUN useradd -d ${USER_HOME} -m -U -s /bin/bash ${USER} && \
     cd /tmp/ && tar -cvzf user_home.tgz -C /data ./ && \
     echo ${CONTAINER_NAME} ${VERSION} > /etc/docker.type
 COPY /start_container.sh /start_container.sh
-VOLUME ["/data"]
+#VOLUME ["/data"]
 #WORKDIR ${REPO_PATH}
 USER ${USER}
 ENTRYPOINT ["/start_container.sh"]
