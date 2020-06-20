@@ -12,8 +12,8 @@ RUN useradd -m -U -s /bin/bash ${USER} && \
     su - ${USER} -c 'pip install --user setuptools django pymysql flask dotmap flask_restful cryptography urllib3 lark-parser' && \
     su - ${USER} -c 'echo -e "set enc=utf-8\nset fenc=utf-8\nset termencoding=utf-8\nset expandtab\nset ai\nset autoindent\nset tabstop=4\nset paste\nset ruler\nsyntax on" > ~/.vimrc' && \
     su - ${USER} -c """echo $(echo "alias ll=\'ls -la --color=auto\'") >> ~/.bashrc""" && \
-    su - ${USER} -c 'echo "cd ${USER_HOME}" >> ~/.bashrc' && \
     su - ${USER} -c """echo $(echo 'export PATH="'${USER_HOME}'/.local/bin:'${PATH}'"') >> ~/.bashrc""" && \
+    su - ${USER} -c 'echo "cd" >> ~/.bashrc' && \
     sed -i 's:/home/app:/data:g' /etc/passwd && \
     echo ${CONTAINER_NAME} ${VERSION} > /etc/docker.type
 #COPY /start_container.sh /data/start_container.sh
