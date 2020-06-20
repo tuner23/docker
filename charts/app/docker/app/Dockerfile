@@ -9,11 +9,12 @@ ENV CONTAINER_NAME="app" \
     VERSION="2.0"
 RUN useradd -m -U -s /bin/bash ${USER} && \
     #eselect python set "`eselect python list | grep ${PYTHONV} | awk '{ print $1 }' | grep -o '[0-9]'`" && \
-    su - ${USER} -c "pip install --user setuptools django pymysql flask dotmap flask_restful cryptography urllib3 lark-parser" && \
-    echo -e "set enc=utf-8\nset fenc=utf-8\nset termencoding=utf-8\nset expandtab\nset ai\nset autoindent\nset tabstop=4\nset paste\nset ruler\nsyntax on" > ~/.vimrc && \
-    echo "alias ll='ls -la --color=auto'" >> ~/.bashrc && \
-    echo "cd ${USER_HOME}" >> ~/.bashrc && \
-    echo 'export PATH="'"${USER_HOME}"'/.local/bin:'"${PATH}"'"' >> ~/.bashrc && \
+    su - ${USER} -c 'pip install --user setuptools django pymysql flask dotmap flask_restful cryptography urllib3 lark-parser' && \
+    su - ${USER} -c 'echo -e "set enc=utf-8\nset fenc=utf-8\nset termencoding=utf-8\nset expandtab\nset ai\nset autoindent\nset tabstop=4\nset paste\nset ruler\nsyntax on" > ~/.vimrc' && \
+    su - ${USER} -c 'echo alias ll="ls -la --color=auto" >> ~/.bashrc' && \
+    su - ${USER} -c 'echo "cd ${USER_HOME}" >> ~/.bashrc' && \
+    su - ${USER} -c """echo $(echo 'export PATH="'${USER_HOME}'/.local/bin:'${PATH}'"') >> ~/.bashrc""" && \
+    sed -i 's:/home/app:/data:g' /etc/passwd && \
     echo ${CONTAINER_NAME} ${VERSION} > /etc/docker.type
 #COPY /start_container.sh /data/start_container.sh
 #VOLUME ["/data"]
