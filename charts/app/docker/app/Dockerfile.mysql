@@ -14,6 +14,8 @@ RUN useradd -m -g root -s /bin/bash ${USER} && \
     chown -R app /var/run/mysqld/ && \
     su - ${USER} -c 'echo -e "set enc=utf-8\nset fenc=utf-8\nset termencoding=utf-8\nset expandtab\nset ai\nset autoindent\nset tabstop=4\nset paste\nset ruler\nsyntax on" > ~/.vimrc' && \
     su - ${USER} -c """echo $(echo "alias ll=\'ls -la --color=auto\'") >> ~/.bashrc""" && \
+    su - ${USER} -c 'echo "cd" >> ~/.bashrc' && \
+    sed -i 's:/home/app:/data:g' /etc/passwd && \
     su - ${USER} -c '''echo -e "[client]\nuser=root\npassword='sP@55'\n\n[mysql]\nuser=root\npassword='sP@55'" > ~/.my.cnf''' && \
     /bin/sed -i.bak 's:\(^datadir.*\)/var/lib/mysql\(.*\):\1'"${REPO_PATH}"':g' /etc/mysql/mysql.d/50-distro-server.cnf && \
     /bin/sed -i.bak 's/^bind-address\s\s*=\s\s*127.0.0.1/bind-address = 0.0.0.0/g' /etc/mysql/mysql.d/50-distro-server.cnf && \
