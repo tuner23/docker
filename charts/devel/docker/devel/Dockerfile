@@ -8,15 +8,14 @@ ENV CONTAINER_NAME="devel" \
     REPO_PATH="/data/devel" \
     PYTHONV="python3.7" \
     VERSION="2.0"
-RUN useradd -d ${USER_HOME} -m -U -s /bin/bash ${USER} && \
-    eselect python set "`eselect python list | grep ${PYTHONV} | awk '{ print $1 }' | grep -o '[0-9]'`" && \
+RUN useradd -m -U -s /bin/bash ${USER} && \
     su - ${USER} -c "pip install --user setuptools django dotmap flask pymysql flask_restful cryptography urllib3 lark-parser" && \
-    echo -e "set enc=utf-8\nset fenc=utf-8\nset termencoding=utf-8\nset expandtab\nset ai\nset autoindent\nset tabstop=4\n\"set paste\nset ruler\nsyntax on" > "${USER_HOME}/.vimrc" && \
-    grep -qF "alias ll='ls -la --color=auto'" "${USER_HOME}/.bashrc" || echo "alias ll='ls -la --color=auto'" >> "${USER_HOME}/.bashrc" && \
-    grep -qF "cd ${REPO_PATH}" "${USER_HOME}/.bashrc" || echo "cd ${REPO_PATH}" >> "${USER_HOME}/.bashrc" && \
-    grep -qF "(git pull || true)" "${USER_HOME}/.bashrc" || echo "(git pull || true)" >> "${USER_HOME}/.bashrc" && \
-    grep -qF 'export PATH="/home/'"${USER}"'/.local/bin:'"${PATH}"'"' "${USER_HOME}/.bashrc" || echo 'export PATH="/home/'"${USER}"'/.local/bin:'"${PATH}"'"' >> "${USER_HOME}/.bashrc" && \
-    cd /tmp/ && tar -cvzf user_home.tgz -C /data ./ && \
+    su - ${USER} -c 'echo -e "set enc=utf-8\nset fenc=utf-8\nset termencoding=utf-8\nset expandtab\nset ai\nset autoindent\nset tabstop=4\nset paste\nset ruler\nsyntax on" > ~/.vimrc' && \
+    su - ${USER} -c """echo $(echo "alias ll=\'ls -la --color=auto\'") >> ~/.bashrc""" && \
+    su - ${USER} -c 'echo "cd" >> ~/.bashrc' && \
+    su - ${USER} -c 'echo "(git pull || true)" >> ~/.bashrc' && \
+    su - ${USER} -c """echo $(echo 'export PATH="'${USER_HOME}'/.local/bin:'${PATH}'"') >> ~/.bashrc""" && \
+    sed -i 's:/home/app:/data:g' /etc/passwd && \
     echo ${CONTAINER_NAME} ${VERSION} > /etc/docker.type
 COPY /start_container.sh /start_container.sh
 #VOLUME ["/data"]
