@@ -12,7 +12,7 @@ RUN useradd -m -U -s /bin/bash ${USER} && \
     su - ${USER} -c "pip install --user setuptools django dotmap flask pymysql flask_restful cryptography urllib3 lark-parser" && \
     su - ${USER} -c 'echo -e "set enc=utf-8\nset fenc=utf-8\nset termencoding=utf-8\nset expandtab\nset ai\nset autoindent\nset tabstop=4\nset paste\nset ruler\nsyntax on" > ~/.vimrc' && \
     su - ${USER} -c """echo $(echo "alias ll=\'ls -la --color=auto\'") >> ~/.bashrc""" && \
-    su - ${USER} -c 'echo "cd" >> ~/.bashrc' && \
+    su - ${USER} -c 'echo "cd '${REPO_PATH}'" >> ~/.bashrc' && \
     su - ${USER} -c 'echo "(git pull || true)" >> ~/.bashrc' && \
     su - ${USER} -c """echo $(echo 'export PATH="'${USER_HOME}'/.local/bin:'${PATH}'"') >> ~/.bashrc""" && \
     sed -i 's:/home/app:/data:g' /etc/passwd && \
