@@ -20,8 +20,7 @@ spec:
       - name: init-{{ include "app.name" . }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         command: [ "/bin/bash", "-c", "--" ]
-        args:  [ "cd /data && tar xvzf --skip-old-files /tmp/user_home.tgz ; chown -R devel /data" ]
-
+        args:  [ "cp -prn /home/devel/.* /data/ ; chown -R devel /data" ]
         securityContext:
           runAsUser: 0
         volumeMounts:

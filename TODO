@@ -2,5 +2,4 @@
 * run git as git user with initContainers
 * run jenkins as jenkins user with initContainers
 * kubernetes log messages (e.g. for app-server)
-* Bash-History, etc in Data
-* Kl. Partition in app-server für Logs
+

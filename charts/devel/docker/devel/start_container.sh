@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ ! -f /data/.bashrc ]] ; then
-  cp -pr /home/devel.home/.* /data/
+  cp -pr /home/devel/.* /data/
 fi
   
 if [[ ! -d ${REPO_PATH} && "$(whoami)" == "devel" ]] ; then
