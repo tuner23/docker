@@ -1,0 +1,27 @@
+# Gentoo Devel Container
+  
+FROM tuner/gentoo-skel:latest
+ENV CONTAINER_NAME="redis" \
+    USER="app" \
+    USER_HOME="/data" \
+    MAIL="app-redis@localhost" \
+    REPO_PATH="/data/redis" \
+    VERSION="2.0"
+RUN useradd -m -g root -s /bin/bash ${USER} && \
+    usermod -a -G redis ${USER} && \
+    su - ${USER} -c 'echo -e "set enc=utf-8\nset fenc=utf-8\nset termencoding=utf-8\nset expandtab\nset ai\nset autoindent\nset tabstop=4\nset paste\nset ruler\nsyntax on" > ~/.vimrc' && \
+    su - ${USER} -c """echo $(echo "alias ll=\'ls -la --color=auto\'") >> ~/.bashrc""" && \
+    su - ${USER} -c 'echo "cd" >> ~/.bashrc' && \
+    /bin/sed -i.bak 's/^bind\s\s*127.0.0.1/#bind 127.0.0.1/g' /etc/redis.conf && \
+    /bin/sed -i.bak 's/^protected-mode\s\s*yes/protected-mode no/g' /etc/redis.conf && \
+    /bin/sed -i.bak 's:^dbfilename\s\s*dump.rdb:dbfilename dump.rdb:g' /etc/redis.conf && \
+    /bin/sed -i.bak 's:^dir /var/lib/redis/:dir /data/redis/:g' /etc/redis.conf && \
+    chown -R app /var/log/redis/ && \
+    chmod g+w /var/log/redis/ && \
+    sed -i 's:/home/app:/data:g' /etc/passwd && \
+    echo ${CONTAINER_NAME} ${VERSION} > /etc/docker.type
+COPY /start_redis_container.sh /start_container.sh
+VOLUME ["/data"]
+#WORKDIR ${REPO_PATH}
+USER ${USER}
+ENTRYPOINT ["/start_container.sh"]

@@ -10,7 +10,7 @@
     echo 'ACCEPT_KEYWORDS="~amd64"' >> /etc/portage/make.conf
     emerge -D --autounmask-write dev-util/jenkins-bin
     etc-update --automode -5
-    emerge -avD dev-python/pip dev-lang/python dev-vcs/git dev-db/mysql app-editors/vim dev-util/jenkins-bin sys-cluster/kubectl app-misc/jq
+    emerge -avD dev-python/pip dev-lang/python dev-vcs/git dev-db/mysql app-editors/vim dev-util/jenkins-bin sys-cluster/kubernetes app-misc/jq dev-db/redis
     emerge --config dev-db/mysql
     rm -rf /var/db/repos/gentoo
     rm -rf /var/cache/distfiles/*
