@@ -16,6 +16,7 @@ RUN useradd -m -g root -s /bin/bash ${USER} && \
     /bin/sed -i.bak 's/^protected-mode\s\s*yes/protected-mode no/g' /etc/redis.conf && \
     /bin/sed -i.bak 's:^dbfilename\s\s*dump.rdb:dbfilename dump.rdb:g' /etc/redis.conf && \
     /bin/sed -i.bak 's:^dir /var/lib/redis/:dir /data/redis/:g' /etc/redis.conf && \
+    echo "kernel.mm.transparent_hugepage.enabled = never" >> /etc/sysctl.conf && \
     chown -R app /var/log/redis/ && \
     chmod g+w /var/log/redis/ && \
     sed -i 's:/home/app:/data:g' /etc/passwd && \
