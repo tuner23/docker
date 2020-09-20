@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "app.name" . }}-redis
+  namespace: {{ .Values.nameSpace }}
+  labels:
+{{ include "app.labels" . | indent 4 }}
+spec:
+  serviceName: {{ include "app.name" . }}-redis
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "app.name" . }}-redis
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "app.name" . }}-redis
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      initContainers:
+      - name: init-{{ include "app.name" . }}-redis
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        command: [ "/bin/bash", "-c", "--" ]
+        args:  [ "cp -prn /home/app/. /data/ ; mkdir -p /data/redis ; chmod 770 /data/redis; chown -R app:redis /data" ]
+        securityContext:
+          runAsUser: 0
+        volumeMounts:
+        - name: {{ include "app.name" . }}-redis-vol
+          mountPath: /data
+      containers:
+        - name: {{ include "app.name" . }}-redis
+          image: "{{ .Values.image.redisitory }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - mountPath: /data
+              name: {{ include "app.name" . }}-redis-vol
+          ports:
+            - containerPort: {{ .Values.redis.port }}
+              protocol: TCP
+      volumes:
+        - name: {{ include "app.name" . }}-redis-vol
+          persistentVolumeClaim:
+            claimName: {{ include "app.name" . }}-redis-pvc

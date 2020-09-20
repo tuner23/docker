@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "app.name" . }}-redis
+  namespace: {{ .Values.nameSpace }}
+  labels:
+{{ include "app.labels" . | indent 4 }}
+spec:
+  type: {{ .Values.redis.type }}
+  ports:
+    - port: {{ .Values.redis.port }}
+      nodePort: {{ .Values.redis.nodePort }}
+  selector:
+    app.kubernetes.io/name: {{ include "app.name" . }}-redis
+    app.kubernetes.io/instance: {{ .Release.Name }}
+

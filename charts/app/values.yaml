@@ -9,6 +9,7 @@ replicaCount: 1
 image:
   repository: tuner/app
   mysqlitory: tuner/mysql
+  redisitory: tuner/redis
   tag: latest
   pullPolicy: Always
 
@@ -17,6 +18,11 @@ mysql:
   type: NodePort
   port: 3306
   nodePort: 31306
+
+redis:
+  type: NodePort
+  port: 6379
+  nodePort: 31307
 
 server:
   type: NodePort
