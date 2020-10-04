@@ -1,0 +1,30 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ include "app.name" . }}-handler
+  namespace: {{ .Values.nameSpace }}
+  labels:
+{{ include "app.labels" . | indent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  initContainers:
+  - name: init-{{ include "app.name" . }}-handler
+    image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+    securityContext:
+      runAsUser: 0
+    volumeMounts:
+    - name: {{ include "app.name" . }}-handler-vol
+      mountPath: /data
+  containers:
+  - name: {{ include "app.name" . }}-handler
+    image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+    volumeMounts:
+    - name: {{ include "app.name" . }}-handler-vol
+      mountPath: /data
+  volumes:
+  - name: {{ include "app.name" . }}-handler-vol
+    persistentVolumeClaim:
+      claimName: {{ include "app.name" . }}-handler-pvc
+  restartPolicy: Never

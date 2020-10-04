@@ -29,6 +29,11 @@ server:
   port: 8081
   nodePort: 31081
 
+handler:
+  type: NodePort
+  port: 4233
+  nodePort: 31422
+
 compute:
   type: NodePort
   port: 4234

@@ -1,41 +1,41 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ include "app.name" . }}-compute
+  name: {{ include "app.name" . }}-handler
   namespace: {{ .Values.nameSpace }}
   labels:
 {{ include "app.labels" . | indent 4 }}
 spec:
-  serviceName: {{ include "app.name" . }}-compute
+  serviceName: {{ include "app.name" . }}-handler
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "app.name" . }}-compute
+      app.kubernetes.io/name: {{ include "app.name" . }}-handler
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "app.name" . }}-compute
+        app.kubernetes.io/name: {{ include "app.name" . }}-handler
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       initContainers:
-      - name: init-{{ include "app.name" . }}-compute
+      - name: init-{{ include "app.name" . }}-handler
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         command: [ "/bin/bash", "-c", "--" ]
         args:  [ "cp -prn /home/app/. /data/ ; echo '#!/bin/bash' > /data/start_container.sh ; echo 'while true; do sleep 30; done;' >> /data/start_container.sh ; chmod u+x /data/start_container.sh ; chown -R app /data" ]
         securityContext:
           runAsUser: 0
         volumeMounts:
-        - name: {{ include "app.name" . }}-compute-vol
+        - name: {{ include "app.name" . }}-handler-vol
           mountPath: /data
       containers:
-        - name: {{ include "app.name" . }}-compute
+        - name: {{ include "app.name" . }}-handler
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
             - mountPath: /data
-              name: {{ include "app.name" . }}-compute-vol
+              name: {{ include "app.name" . }}-handler-vol
       volumes:
-        - name: {{ include "app.name" . }}-compute-vol
+        - name: {{ include "app.name" . }}-handler-vol
           persistentVolumeClaim:
-            claimName: {{ include "app.name" . }}-compute-pvc
+            claimName: {{ include "app.name" . }}-handler-pvc
 
