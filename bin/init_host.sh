@@ -43,7 +43,7 @@ mv /var/snap/microk8s/common/var/lib/* /storage/_kube/
 /bin/sed -i.bak 's:--root-dir=${SNAP_COMMON}/var/lib/kubelet:--root-dir=/storage/_kube/kubelet:g' /var/snap/microk8s/1107/args/kubelet
 mv /var/snap/microk8s/common/run/containerd/ /storage/_kube/run
 /bin/sed -i.bak 's:--state ${SNAP_COMMON}/run/containerd:s:--state /storage/_kube/run' /var/snap/microk8s/current/args/containerd
-
+echo "--streaming-connection-idle-timeout=0" >> /var/snap/microk8s/current/args/kubelet
 microk8s.start
 
 microk8s.enable dns dashboard helm metrics-server ingress
