@@ -14,12 +14,3 @@ image:
 service:
   type: ClusterIP
   port: 9418
-
-ingress:
-  enabled: false
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: git.kube
-      paths: []

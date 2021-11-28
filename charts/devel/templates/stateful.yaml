@@ -6,6 +6,7 @@ metadata:
   labels:
 {{ include "app.labels" . | indent 4 }}
 spec:
+  serviceName: {{ include "app.name" . }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "app.name" . }}

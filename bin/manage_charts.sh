@@ -1,6 +1,6 @@
 #!/bin/bash
 
-helm='/snap/bin/microk8s.helm'
+helm='/snap/bin/microk8s.helm3'
 kubectl='/snap/bin/microk8s.kubectl'
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
@@ -58,21 +58,21 @@ install_chart() {
         do_all
     else
         echo "Installing $CHART with options $DRY ..."
-        $helm install $DRY $DEBUG --name $CHART ./$CHART/
+        $helm install $DRY $DEBUG $CHART ./$CHART/
     fi
 }
 
 do_all() {
     if [ "$CMD" == "install" ] ; then
-        $helm install $DRY $DEBUG --name common ./common/
-        $helm install $DRY $DEBUG --name git ./git/
-        $helm install $DRY $DEBUG --name devel ./devel/
-        $helm install $DRY $DEBUG --name jenkins ./jenkins/
+        $helm install $DRY $DEBUG common ./common/
+        $helm install $DRY $DEBUG git ./git/
+        $helm install $DRY $DEBUG devel ./devel/
+        $helm install $DRY $DEBUG jenkins ./jenkins/
     elif [ "$CMD" == "delete" ] ; then
-        $helm delete $DRY $DEBUG --name jenkins
-        $helm delete $DRY $DEBUG --name devel
-        $helm delete $DRY $DEBUG --name git
-        $helm delete $DRY $DEBUG --name common
+        $helm delete $DRY $DEBUG jenkins
+        $helm delete $DRY $DEBUG devel
+        $helm delete $DRY $DEBUG git
+        $helm delete $DRY $DEBUG common
     fi
 }
 
@@ -84,12 +84,12 @@ upgrade_chart() {
 
 delete_chart() {
     echo "Deleting $CHART with options $DRY ..."
-    $helm delete --purge $DRY $DEBUG $CHART
+    $helm delete $DRY $DEBUG $CHART
 }
 
 purge_chart() {
     echo "Purging $CHART with options $DRY ..."
-    $helm delete --purge $DRY $DEBUG $CHART
+    $helm delete $DRY $DEBUG $CHART
 
     $kubectl delete service ${CHART}
     $kubectl delete pvc ${CHART}-pvc
