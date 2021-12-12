@@ -13,6 +13,7 @@ ENV CONTAINER_NAME="jenkins" \
 EXPOSE 8080
 RUN usermod -u 1000 jenkins && \
     groupmod -g 1000 jenkins && \
+    su - ${USER} -c "pip install --user wheel isort pylint flake8 black" && \
     /bin/sed -i.bak 's:\(^jenkins.*\)/var/lib/jenkins\(.*\):\1'"${REPO_PATH}"'\2:g' /etc/passwd && \
     /bin/sed -i.bak 's:\(^JENKINS_HOME="\)/var/lib/jenkins/home\("\):\1'"${REPO_PATH}"'/home\2:g' /etc/conf.d/jenkins && \
     /bin/sed -i.bak 's:\(^JENKINS_WAR="\)/opt/jenkins/jenkins.war\("\):\1'"${REPO_PATH}"'/jenkins.war\2:g' /etc/conf.d/jenkins && \
