@@ -15,6 +15,7 @@ RUN useradd -m -U -s /bin/bash ${USER} && \
     su - ${USER} -c 'echo "cd '${REPO_PATH}'" >> ~/.bashrc' && \
     su - ${USER} -c 'echo "(git pull || true)" >> ~/.bashrc' && \
     su - ${USER} -c """echo $(echo 'export PATH="'${USER_HOME}'/.local/bin:'${PATH}'"') >> ~/.bashrc""" && \
+    echo 'export PATH="/root/.local/bin:'${PATH}'"' >> ~/.bashrc && \
     sed -i 's:/home/devel:/data:g' /etc/passwd && \
     echo ${CONTAINER_NAME} ${VERSION} > /etc/docker.type
 COPY /start_container.sh /start_container.sh
