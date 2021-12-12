@@ -18,5 +18,7 @@ apt-get purge $(dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\
 
 ## init system
 iptables -P FORWARD ACCEPT
+ulimit -n 65536
 sleep 5
-/snap/bin/microk8s.start
+find /storage/k8s/run/ -maxdepth 1 -iname '*containerd*' -exec rm -r {} \;
+#/snap/bin/microk8s.start

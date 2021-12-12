@@ -23,6 +23,10 @@ chmod a+x /etc/update-motd.d/50-landscape-sysinfo-addon
 
 echo "cd /data/repo/docker" >> /home/tuner/.bashrc
 echo "source <(kubectl completion bash)" >> /home/tuner/.bashrc
+sed -i 's:HISTSIZE=.*:HISTSIZE=10000:g' /home/tuner/.bashrc
+sed -i 's:HISTFILESIZE=.*:HISTFILESIZE=100000:g' /home/tuner/.bashrc
+echo "ulimit -n 65536" >> /home/tuner/.bashrc
+
 echo "alias kubectl='microk8s.kubectl'" >>  /home/tuner/.bash_aliases
 echo "alias helm='microk8s.helm3'" >>  /home/tuner/.bash_aliases
 echo "alias helm3='microk8s.helm3'" >>  /home/tuner/.bash_aliases
@@ -68,6 +72,7 @@ After=multi-user.target
 [Service]
 Type=simple
 ExecStart=/data/repo/docker/bin/rc_local.sh
+ExecStop=/snap/bin/microk8s.stop
 
 [Install]
 WantedBy=ultimate.target""" > /etc/systemd/system/rc_local.service
